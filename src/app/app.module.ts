@@ -8,6 +8,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
+import { ChartsModule } from 'ng2-charts';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +20,9 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ChartsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
