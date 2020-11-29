@@ -75,7 +75,7 @@
     <!-- Text -->
     <p *ngIf="isCheckedFan" class="card-text">Currently Active </p>
     <p *ngIf="!isCheckedFan" class="card-text">Currently Inactive </p>
-    <mat-slide-toggle [(ngModel)]="isCheckedFan">Fan Switch:  {{isCheckedFan}}</mat-slide-toggle>
+    <mat-slide-toggle (change)= "clickFan()" [checked]="isCheckedFan">Fan Switch:  {{isFan}}</mat-slide-toggle>
 
   </div>
 </div>
@@ -90,7 +90,7 @@
     <!-- Text -->
     <p *ngIf="isCheckedLight" class="card-text">Currently Active </p>
     <p *ngIf="!isCheckedLight" class="card-text">Currently Inactive </p>
-    <mat-slide-toggle [(ngModel)]="isCheckedLight">Light Switch:  {{isCheckedLight}}</mat-slide-toggle>
+    <mat-slide-toggle (change) = "clickLight()" [checked]="isCheckedLight">Light Switch:  {{isLight}}</mat-slide-toggle>
 
   </div>
 </div>

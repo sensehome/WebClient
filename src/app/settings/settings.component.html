@@ -1,1 +1,23 @@
-<p>settings works!</p>
+<div class="card weather-card">
+
+  <!-- Card content -->
+  <div class="card-body pb-3">
+
+    <!-- Title -->
+    <h4 class="card-title font-weight-bold">Temperature & Humidity Sensor</h4>
+    <!-- Text -->
+    <mat-slide-toggle (change)="clickTempHum()" [checked]="isCheckedTempHum">Sensor Switch:  {{showTempHum}}</mat-slide-toggle>
+  </div>
+</div>
+
+<div class="card weather-card">
+
+  <!-- Card content -->
+  <div class="card-body pb-3">
+
+    <!-- Title -->
+    <h4 class="card-title font-weight-bold">Motion Sensor</h4>
+    <!-- Text -->
+    <mat-slide-toggle (change)="clickMotion()" [checked]="isCheckedMotion">Sensor Switch:  {{showMotion}}</mat-slide-toggle>
+  </div>
+</div>

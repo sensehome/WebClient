@@ -37,6 +37,8 @@ export class DashboardComponent implements OnInit {
 
   isCheckedFan = false;
   isCheckedLight = false;
+  isFan = "OFF";
+  isLight = "OFF";
   // temperatureFloat = parseFloat(this.signalRService.tempData?.getDataInModel().temperature);
 
   // lineChartData: ChartDataSets[] = [
@@ -65,8 +67,19 @@ export class DashboardComponent implements OnInit {
         console.log(res);
       })
   }
-  fanSwitch(){
-    this.isChecked = !this.isChecked;
+  clickFan(){
+    console.log("click");
+    this.isCheckedFan = !this.isCheckedFan;
+    if(this.isCheckedFan)
+      this.isFan = "ON";
+    else this.isFan = "OFF"
+
+  }
+  clickLight(){
+    this.isCheckedLight = !this.isCheckedLight;
+    if(this.isCheckedLight)
+      this.isLight = "ON";
+    else this.isLight = "OFF";
   }
 
 }
