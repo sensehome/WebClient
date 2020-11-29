@@ -14,6 +14,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { SettingsComponent } from './settings/settings.component';
+import { TemperatureHumidityComponent } from './dashboard/temperature-humidity/temperature-humidity.component';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +24,8 @@ import { SettingsComponent } from './settings/settings.component';
     HomeComponent,
     DashboardComponent,
     ProfileComponent,
-    SettingsComponent
+    SettingsComponent,
+    TemperatureHumidityComponent
   ],
   imports: [
     BrowserModule,
@@ -31,9 +35,11 @@ import { SettingsComponent } from './settings/settings.component';
     NoopAnimationsModule,
     FormsModule,
     MatSlideToggleModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MDBBootstrapModule.forRoot()
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class AppModule { }

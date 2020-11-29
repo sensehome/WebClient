@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { ChartModel } from '../models/TempHumModel';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -50,7 +51,7 @@ export class DashboardComponent implements OnInit {
 
   // public colors: any[] = [{ backgroundColor: '#5491DA' }, { backgroundColor: '#E74C3C' }, { backgroundColor: '#82E0AA' }, { backgroundColor: '#E5E7E9' }]
 
-  constructor(public signalRService: SignalRService, private http: HttpClient) {
+  constructor(public signalRService: SignalRService, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
 
    }
   ngOnInit() {
@@ -80,6 +81,10 @@ export class DashboardComponent implements OnInit {
     if(this.isCheckedLight)
       this.isLight = "ON";
     else this.isLight = "OFF";
+  }
+
+  toTemperatureHumidity(){
+    this.router.navigate(['temperature-humidity'],{relativeTo: this.route});
   }
 
 }
