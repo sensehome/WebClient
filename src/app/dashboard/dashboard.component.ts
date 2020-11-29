@@ -29,8 +29,14 @@ export class DashboardComponent implements OnInit {
   public lineChartPlugins = [];
 
 
+  public humArr = this.signalRService.humidityArr;
+  public tempArr = this.signalRService.temperatureArr;
+  public dates= this.signalRService.dateArr;
 
   humidityInt :Number;
+
+  isCheckedFan = false;
+  isCheckedLight = false;
   // temperatureFloat = parseFloat(this.signalRService.tempData?.getDataInModel().temperature);
 
   // lineChartData: ChartDataSets[] = [
@@ -42,10 +48,13 @@ export class DashboardComponent implements OnInit {
 
   // public colors: any[] = [{ backgroundColor: '#5491DA' }, { backgroundColor: '#E74C3C' }, { backgroundColor: '#82E0AA' }, { backgroundColor: '#E5E7E9' }]
 
-  constructor(public signalRService: SignalRService, private http: HttpClient) { }
+  constructor(public signalRService: SignalRService, private http: HttpClient) {
+
+   }
   ngOnInit() {
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener();
+
 
     // this.startHttpRequest();
     // this.dummyMethod();
@@ -56,8 +65,8 @@ export class DashboardComponent implements OnInit {
         console.log(res);
       })
   }
-  public dummyMethod = () => {
-    this.humidityInt = Number(this.signalRService.tempData?.getDataInModel().humidity);
+  fanSwitch(){
+    this.isChecked = !this.isChecked;
   }
 
 }

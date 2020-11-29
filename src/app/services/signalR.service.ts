@@ -7,7 +7,10 @@ import { ChartModel } from '../models/TempHumModel';
 export class SignalRService {
   public historicalData: ChartModel[];
   public tempData : ChartModel;
-  public x:any;
+  public temperatureArr = [];
+  public humidityArr = [];
+  public dateArr = [];
+
 
   private hubConnection: signalR.HubConnection;
   public startConnection = () => {
@@ -24,13 +27,31 @@ export class SignalRService {
   }
   public addTransferChartDataListener = () => {
     this.hubConnection.on('Broadcast', (label : string,payload : string) => {
-      // this.label = label;
+      if(label=='home/temperature-humidity'){
+        // this.label = label;
       let chart = new ChartModel(label,payload);
+      // console.log(chart);
       // this.historicalData.push(chart);
       this.tempData = chart;
-      let temp = chart.data
-      console.log(chart.getDataInModel());
+      let temp = chart.data;
+      // console.log(chart.getDataInModel());
+      // console.log(typeof(chart.getDataInModel().temperature));
+
+      setInterval(()=>{
+      this.temperatureArr.push(chart.getDataInModel().temperature);
+      this.humidityArr.push(chart.getDataInModel().humidity);
+      this.dateArr.push(new Date());
+
+      console.log(this.temperatureArr);
+      console.log(this.humidityArr);
+      console.log(this.dateArr);
+      },25000);
+
+
+
+
+
       // console.log(JSON.parse(this.tempData.data));
-    });
+    }});
   }
 }
