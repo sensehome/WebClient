@@ -1,10 +1,16 @@
-<div class="jumbotron">
-  <h1 class="display-4">Hello, This is SenseHome</h1>
-  <p class="lead">Your IoT Solution </p>
-  <hr class="my-4">
-  <p>Access Dashboard or Profile</p>
-  <p class="lead">
-    <a class="btn btn-primary btn-md" style="margin-right: 20px;" routerLink="/dashboard" role="button">Dashboard</a>
-    <a class="btn btn-primary btn-md" routerLink="/profile" role="button">Profile</a>
-  </p>
+<div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4">
+        <app-dashboard-card></app-dashboard-card>
+      </div>
+      <div class="col-sm-4">
+        <app-dashboard-card></app-dashboard-card>
+      </div>
+      <div class="col-sm-4">
+        <app-dashboard-card></app-dashboard-card>
+      </div>
+    </div>
+  </div>
+  <app-line-chart></app-line-chart>
 </div>

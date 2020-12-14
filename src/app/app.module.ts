@@ -2,11 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
-import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,15 +15,22 @@ import { SettingsComponent } from './settings/settings.component';
 import { TemperatureHumidityComponent } from './dashboard/temperature-humidity/temperature-humidity.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { LayoutComponent } from './shared/layout/layout.component';
+import { DashboardCardComponent } from './shared/dashboard-card/dashboard-card.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { LineChartComponent } from './shared/line-chart/line-chart.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     HomeComponent,
     DashboardComponent,
     ProfileComponent,
     SettingsComponent,
-    TemperatureHumidityComponent
+    TemperatureHumidityComponent,
+    LayoutComponent,
+    DashboardCardComponent,
+    LineChartComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +41,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
     FormsModule,
     MatSlideToggleModule,
     BrowserAnimationsModule,
+    NgApexchartsModule,
     MDBBootstrapModule.forRoot()
   ],
   providers: [],
