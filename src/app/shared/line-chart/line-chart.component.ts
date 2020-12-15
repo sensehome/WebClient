@@ -1,69 +1,74 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-
+import { Component, Input, OnInit, SimpleChange } from '@angular/core';
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
-  styleUrls: ['./line-chart.component.css']
+  styleUrls: ['./line-chart.component.css'],
 })
 export class LineChartComponent implements OnInit {
-  @Input() user: string;
+  @Input() chartName: string;
+  @Input() title: string;
+  @Input() lineValues: any[];
 
-  values = []
-  labels = []
   chartOptions = {
     series: [
       {
-        name: "My-series",
-        data: this.values
-      }
+        name: '',
+        data: [0],
+      },
     ],
     chart: {
       height: 350,
-      type: "line",
-      id: "realtime",
+      type: 'line',
+      id: 'realtime',
       animations: {
         enabled: true,
-        easing: "linear",
+        easing: 'linear',
         dynamicAnimation: {
           enabled: true,
           speed: 350,
         },
         animateGradually: {
           enabled: true,
-          delay: 150
+          delay: 150,
         },
       },
     },
     stroke: {
-      curve: "smooth",
+      curve: 'smooth',
     },
     title: {
-      text: "My First Angular Chart"
+      text: '',
     },
     xaxis: {
-       range: 10,
-      categories: this.labels
-    }
+      range : 10,
+      categories: [
+        new Date().toLocaleTimeString(),
+      ],
+      label : {
+        show : true,
+        rotate : -45,
+      }
+    },
   };
-  looper: any
+  looper: any;
 
   ngOnInit() {
-    console.log(this.user)
-    this.looper = setInterval(() => {
-      this.values.push((Math.random() * 10).toPrecision(2))
-      this.labels.push(new Date().getSeconds)
-      this.chartOptions.series = [{
-        name : "My Chart",
-        data : this.values
-      }]
-    }, 2000)
+    this.chartOptions.title.text = this.title
   }
 
-  ngOnDestroy() {
-    if (this.looper) {
-      clearInterval(this.looper);
+  ngOnChanges(changes: SimpleChange) {
+    if (this.chartOptions) {
+      if (changes['lineValues']) {
+        this.chartOptions.series = [
+          {
+            name: this.chartName,
+            data: this.lineValues[0],
+          },
+        ];
+        this.chartOptions.xaxis.categories.push(new Date().toLocaleTimeString())
+      }
     }
-
   }
 
+  ngOnDestroy() {}
 }

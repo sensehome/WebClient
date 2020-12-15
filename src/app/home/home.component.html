@@ -6,7 +6,7 @@
           cardColor="bg-warning"
           iconClass="fas fa-thermometer-quarter fa-2x"
           label="Temperature"
-          value="26.20"
+          value="{{ temperatureValue }}"
         ></app-dashboard-card>
       </div>
       <div class="col-sm-4 col-md-3 col-lg-2">
@@ -14,7 +14,7 @@
           cardColor="bg-primary"
           iconClass="fas fa-tint fa-2x"
           label="Humidity"
-          value="34%"
+          value="{{humidityValue}}%"
         ></app-dashboard-card>
       </div>
       <div class="col-sm-4 col-md-3 col-lg-2">
@@ -35,5 +35,28 @@
       </div>
     </div>
   </div>
-  <app-line-chart user="Rafiul Islam"></app-line-chart>
+  <div class="container-fluid mt-4">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <app-line-chart
+            title="Realtime Temperature"
+            chartName="Temperature"
+            [lineValues]="[temperatureValueList]"
+          >
+          </app-line-chart>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <app-line-chart
+            title="Realtime Humidity"
+            chartName="Humidity"
+            [lineValues]="[humidityValueList]"
+          >
+          </app-line-chart>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
