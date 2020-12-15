@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ApexChart, ChartComponent } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-line-chart',
@@ -7,7 +6,7 @@ import { ApexChart, ChartComponent } from 'ng-apexcharts';
   styleUrls: ['./line-chart.component.css']
 })
 export class LineChartComponent implements OnInit {
-  @Input() chart: ApexChart;
+  @Input() user: string;
 
   values = []
   labels = []
@@ -47,12 +46,9 @@ export class LineChartComponent implements OnInit {
     }
   };
   looper: any
-  constructor() {
-   
-  }
 
   ngOnInit() {
-    console.log(this.chart)
+    console.log(this.user)
     this.looper = setInterval(() => {
       this.values.push((Math.random() * 10).toPrecision(2))
       this.labels.push(new Date().getSeconds)

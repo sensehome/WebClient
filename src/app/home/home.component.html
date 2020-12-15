@@ -1,16 +1,39 @@
 <div>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-4">
-        <app-dashboard-card></app-dashboard-card>
+      <div class="col-sm-4 col-md-3 col-lg-2">
+        <app-dashboard-card
+          cardColor="bg-warning"
+          iconClass="fas fa-thermometer-quarter fa-2x"
+          label="Temperature"
+          value="26.20"
+        ></app-dashboard-card>
       </div>
-      <div class="col-sm-4">
-        <app-dashboard-card></app-dashboard-card>
+      <div class="col-sm-4 col-md-3 col-lg-2">
+        <app-dashboard-card
+          cardColor="bg-primary"
+          iconClass="fas fa-tint fa-2x"
+          label="Humidity"
+          value="34%"
+        ></app-dashboard-card>
       </div>
-      <div class="col-sm-4">
-        <app-dashboard-card></app-dashboard-card>
+      <div class="col-sm-4 col-md-3 col-lg-2">
+        <app-dashboard-card
+          cardColor="bg-danger"
+          iconClass="fas fa-lightbulb fa-2x"
+          label="Home Light"
+          value="On"
+        ></app-dashboard-card>
+      </div>
+      <div class="col-sm-4 col-md-3 col-lg-2">
+        <app-dashboard-card
+          cardColor="bg-danger"
+          iconClass="fas fa-fan fa-2x"
+          label="Home Fan"
+          value="On"
+        ></app-dashboard-card>
       </div>
     </div>
   </div>
-  <app-line-chart></app-line-chart>
+  <app-line-chart user="Rafiul Islam"></app-line-chart>
 </div>

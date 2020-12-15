@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-card',
@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardCardComponent implements OnInit {
 
+  @Input() iconClass : string
+  @Input() cardColor : string
+  @Input() label : string
+  @Input() value : any
+
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }
