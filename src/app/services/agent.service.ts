@@ -1,7 +1,9 @@
 import * as SignalR from "@aspnet/signalr"
 
-
 export class AgentService {
+  public static RpcHubConnection : string = "AgentConnectionStatus"
+  public static RpcHubBroadcast : string = "Broadcast"
+
   private static instance : AgentService
   public readonly Hub : SignalR.HubConnection
 

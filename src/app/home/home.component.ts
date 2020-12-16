@@ -9,7 +9,6 @@ import { AgentService } from '../services/agent.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  looper: any;
   temperatureValue: number = 0.0;
   humidityValue: number = 0.0;
   temperatureValueList: number[] = [];
@@ -35,46 +34,53 @@ export class HomeComponent implements OnInit {
   };
 
   agentHubSubsriptions = () => {
-    if (AgentService.getInstance().Hub.state === HubConnectionState.Connected) {
-      console.log('Subscriptions');
-      AgentService.getInstance().Hub.on('Broadcast', (topic, payload) => {
-        let temperatureHumidity = JSON.parse(payload) as TemperatureHumidityDto;
-        this.humidityValue = temperatureHumidity.humidity;
-        this.temperatureValue = Number.parseFloat(temperatureHumidity.temperature.toFixed(2));
-        this.temperatureValueList = [
-          ...this.temperatureValueList,
-          this.temperatureValue,
-        ];
-        this.humidityValueList = [
-          ...this.humidityValueList,
-          this.humidityValue,
-        ];
-      });
+    let agentHub = AgentService.getInstance().Hub;
 
-      AgentService.getInstance().Hub.on(
-        'AgentConnectionStatus',
-        (payload) => {}
+    let callbackMap = [
+      {
+        topic: 'home/temperature-humidity',
+        handler: this.onTemperatureHumidityReadingCallback,
+      },
+    ];
+
+    if (agentHub.state === HubConnectionState.Connected) {
+      agentHub.on(
+        AgentService.RpcHubConnection,
+        this.onAgentMqttConnectionCallback
       );
+      agentHub.on(AgentService.RpcHubBroadcast, (topic, payload) => {
+        let callback = callbackMap.find(c => c.topic === topic)
+        if (callback) {
+          callback.handler(topic, payload)
+        }
+      });
+    } else {
+      alert('Agent is not connected with briker');
     }
   };
 
-  ngOnInit(): void {
-    // this.looper = setInterval(() => {
-    //   this.temperatureValue = Number.parseFloat(
-    //     (Math.random() * 20).toFixed(2)
-    //   );
-    //   this.humidityValue = Number.parseFloat((Math.random() * 100).toFixed(2));
-    //   this.temperatureValueList = [
-    //     ...this.temperatureValueList,
-    //     this.temperatureValue,
-    //   ];
-    //   this.humidityValueList = [...this.humidityValueList, this.humidityValue];
-    // }, 2000);
-  }
+  onAgentMqttConnectionCallback = (isConnected: boolean) => {
+    alert(`Agent is Connected : ${isConnected}`)
+  };
 
-  ngOnDestroy() {
-    if (this.looper) {
-      clearInterval(this.looper);
-    }
-  }
+  onTemperatureHumidityReadingCallback = (topic: string, payload: string) => {
+    let temperatureHumidity = JSON.parse(payload) as TemperatureHumidityDto;
+    this.humidityValue = temperatureHumidity.humidity;
+    this.temperatureValue = Number.parseFloat(
+      temperatureHumidity.temperature.toFixed(2)
+    );
+    this.temperatureValueList = [
+      ...this.temperatureValueList,
+      this.temperatureValue,
+    ];
+    this.humidityValueList = [
+      ...this.humidityValueList,
+      this.humidityValue,
+    ];
+
+  };
+
+  ngOnInit(): void { }
+
+  ngOnDestroy() { }
 }
