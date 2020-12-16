@@ -3,7 +3,7 @@ import { SignalRService } from '../services/signalR.service';
 import { HttpClient } from '@angular/common/http';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
-import { ChartModel } from '../models/TempHumModel';
+// import { ChartModel } from '../models/TemperatureHumidityModel';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   public lineChartOptions: ChartOptions  = {
     responsive: true
   };
-  public tempData : ChartModel[];
+  // public tempData : ChartModel[];
 
   public lineChartColors: Color[] = [
     {

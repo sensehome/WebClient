@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
-import { ChartModel } from '../models/TempHumModel';
+// import { ChartModel } from '../models/TemperatureHumidityModel';
 @Injectable({
   providedIn: 'root'
 })
 export class SignalRService {
-  public historicalData: ChartModel[];
-  public tempData : ChartModel;
+  public historicalData: any[];
+  public tempData : any;
   public temperatureArr = [];
   public humidityArr = [];
   public dateArr = [];
@@ -29,22 +29,22 @@ export class SignalRService {
     this.hubConnection.on('Broadcast', (label : string,payload : string) => {
       if(label=='home/temperature-humidity'){
         // this.label = label;
-      let chart = new ChartModel(label,payload);
+      // let chart = new ChartModel(label,payload);
       // console.log(chart);
       // this.historicalData.push(chart);
-      this.tempData = chart;
-      let temp = chart.data;
+      // this.tempData = chart;
+      // let temp = chart.data;
       // console.log(chart.getDataInModel());
       // console.log(typeof(chart.getDataInModel().temperature));
 
       setInterval(()=>{
-      this.temperatureArr.push(chart.getDataInModel().temperature);
-      this.humidityArr.push(chart.getDataInModel().humidity);
-      this.dateArr.push(new Date());
+      // this.temperatureArr.push(chart.getDataInModel().temperature);
+      // this.humidityArr.push(chart.getDataInModel().humidity);
+      // this.dateArr.push(new Date());
 
-      console.log(this.temperatureArr);
-      console.log(this.humidityArr);
-      console.log(this.dateArr);
+      // console.log(this.temperatureArr);
+      // console.log(this.humidityArr);
+      // console.log(this.dateArr);
       },25000);
 
 
