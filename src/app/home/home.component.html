@@ -1,10 +1,62 @@
-<div class="jumbotron">
-  <h1 class="display-4">Hello, This is SenseHome</h1>
-  <p class="lead">Your IoT Solution </p>
-  <hr class="my-4">
-  <p>Access Dashboard or Profile</p>
-  <p class="lead">
-    <a class="btn btn-primary btn-md" style="margin-right: 20px;" routerLink="/dashboard" role="button">Dashboard</a>
-    <a class="btn btn-primary btn-md" routerLink="/profile" role="button">Profile</a>
-  </p>
+<div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4 col-md-3 col-lg-2">
+        <app-dashboard-card
+          cardColor="bg-warning"
+          iconClass="fas fa-thermometer-quarter fa-2x"
+          label="Temperature"
+          value="{{ temperatureValue }}"
+        ></app-dashboard-card>
+      </div>
+      <div class="col-sm-4 col-md-3 col-lg-2">
+        <app-dashboard-card
+          cardColor="bg-primary"
+          iconClass="fas fa-tint fa-2x"
+          label="Humidity"
+          value="{{humidityValue}}%"
+        ></app-dashboard-card>
+      </div>
+      <div class="col-sm-4 col-md-3 col-lg-2">
+        <app-dashboard-card
+          cardColor="bg-danger"
+          iconClass="fas fa-lightbulb fa-2x"
+          label="Home Light"
+          value="On"
+        ></app-dashboard-card>
+      </div>
+      <div class="col-sm-4 col-md-3 col-lg-2">
+        <app-dashboard-card
+          cardColor="bg-danger"
+          iconClass="fas fa-fan fa-2x"
+          label="Home Fan"
+          value="On"
+        ></app-dashboard-card>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt-4">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <app-line-chart
+            title="Realtime Temperature"
+            chartName="Temperature"
+            [lineValues]="[temperatureValueList]"
+          >
+          </app-line-chart>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <app-line-chart
+            title="Realtime Humidity"
+            chartName="Humidity"
+            [lineValues]="[humidityValueList]"
+          >
+          </app-line-chart>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
