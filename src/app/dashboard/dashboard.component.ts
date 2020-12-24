@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SignalRService } from '../services/signalR.service';
+// import { SignalRService } from '../services/signalR.service';
 import { HttpClient } from '@angular/common/http';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
@@ -30,9 +30,9 @@ export class DashboardComponent implements OnInit {
   public lineChartPlugins = [];
 
 
-  public humArr = this.signalRService.humidityArr;
-  public tempArr = this.signalRService.temperatureArr;
-  public dates= this.signalRService.dateArr;
+  // public humArr = this.signalRService.humidityArr;
+  // public tempArr = this.signalRService.temperatureArr;
+  // public dates= this.signalRService.dateArr;
 
   humidityInt :Number;
 
@@ -51,12 +51,12 @@ export class DashboardComponent implements OnInit {
 
   // public colors: any[] = [{ backgroundColor: '#5491DA' }, { backgroundColor: '#E74C3C' }, { backgroundColor: '#82E0AA' }, { backgroundColor: '#E5E7E9' }]
 
-  constructor(public signalRService: SignalRService, private http: HttpClient, private route: ActivatedRoute, private router: Router) {
+  constructor( private http: HttpClient, private route: ActivatedRoute, private router: Router) {
 
    }
   ngOnInit() {
-    this.signalRService.startConnection();
-    this.signalRService.addTransferChartDataListener();
+    // this.signalRService.startConnection();
+    // this.signalRService.addTransferChartDataListener();
 
 
     // this.startHttpRequest();

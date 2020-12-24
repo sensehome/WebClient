@@ -19,6 +19,7 @@ import { LayoutComponent } from './shared/layout/layout.component';
 import { DashboardCardComponent } from './shared/dashboard-card/dashboard-card.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { LineChartComponent } from './shared/line-chart/line-chart.component';
+import { LoginComponent } from './authentication/login/login.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { LineChartComponent } from './shared/line-chart/line-chart.component';
     TemperatureHumidityComponent,
     LayoutComponent,
     DashboardCardComponent,
-    LineChartComponent
+    LineChartComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
