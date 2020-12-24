@@ -11,5 +11,8 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit() {
   }
+  logOut(){
+    localStorage.removeItem('jwt');
+  }
 
 }
