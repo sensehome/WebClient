@@ -20,6 +20,11 @@ import { DashboardCardComponent } from './shared/dashboard-card/dashboard-card.c
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { LineChartComponent } from './shared/line-chart/line-chart.component';
 import { LoginComponent } from './authentication/login/login.component';
+import { JwtModule } from "@auth0/angular-jwt";
+
+export function tokenGetter() {
+  return localStorage.getItem("jwt");
+}
 
 @NgModule({
   declarations: [
@@ -44,7 +49,14 @@ import { LoginComponent } from './authentication/login/login.component';
     MatSlideToggleModule,
     BrowserAnimationsModule,
     NgApexchartsModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:5000"],
+        blacklistedRoutes: []
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],

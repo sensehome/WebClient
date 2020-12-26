@@ -12,6 +12,7 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit() {
   }
+  
   logOut(){
     localStorage.removeItem('jwt');
     this.router.navigate(["/login"])

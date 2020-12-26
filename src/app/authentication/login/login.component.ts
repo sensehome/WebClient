@@ -22,6 +22,8 @@ export class LoginComponent {
       // const token = (<any>response).token;
       // console.log(typeof(JSON.stringify(response)));
       // console.log(JSON.stringify(token));;
+      // const token = (<any>response).data["bearer"];
+      // console.log(token);
       localStorage.setItem("jwt", JSON.stringify(response).slice(11,-2));
       this.invalidLogin = false;
       this.router.navigate(["/"]);
