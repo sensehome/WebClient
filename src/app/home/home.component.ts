@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HubConnectionState } from '@aspnet/signalr';
 import { TemperatureHumidityDto } from '../models/TemperatureHumidityDto';
+import { RelayComponentStatusDto } from '../models/RelayComponentStatusDto';
 import { AgentService } from '../services/agent.service';
 
 @Component({
@@ -13,6 +14,8 @@ export class HomeComponent implements OnInit {
   humidityValue: number = 0.0;
   temperatureValueList: number[] = [];
   humidityValueList: number[] = [];
+  lightStatus : string = "N/A"
+  fanStatus : string = "N/A";
 
   constructor() {
     this.initializeAgentHubConnection();
@@ -41,6 +44,14 @@ export class HomeComponent implements OnInit {
         topic: 'home/temperature-humidity',
         handler: this.onTemperatureHumidityReadingCallback,
       },
+      {
+        topic: 'home/living-room/light/status',
+        handler: this.onLivingRoomLightStatusReadingCallback,
+      },
+      {
+        topic: 'home/living-room/fan/status',
+        handler: this.onLivingRoomFanStatusReadingCallback,
+      },
     ];
 
     if (agentHub.state === HubConnectionState.Connected) {
@@ -49,18 +60,22 @@ export class HomeComponent implements OnInit {
         this.onAgentMqttConnectionCallback
       );
       agentHub.on(AgentService.RpcHubBroadcast, (topic, payload) => {
-        let callback = callbackMap.find(c => c.topic === topic)
+        let callback = callbackMap.find((c) => c.topic === topic);
         if (callback) {
-          callback.handler(topic, payload)
+          callback.handler(topic, payload);
         }
       });
     } else {
-      alert('Agent is not connected with briker');
+      alert('Agent is not connected with broker');
     }
   };
 
   onAgentMqttConnectionCallback = (isConnected: boolean) => {
-    alert(`Agent is Connected : ${isConnected}`)
+    if (isConnected) {
+      alert(`Agent is Connected with Broker`);
+    } else {
+      alert(`Agent is not Connected with Broker`);
+    }
   };
 
   onTemperatureHumidityReadingCallback = (topic: string, payload: string) => {
@@ -73,14 +88,20 @@ export class HomeComponent implements OnInit {
       ...this.temperatureValueList,
       this.temperatureValue,
     ];
-    this.humidityValueList = [
-      ...this.humidityValueList,
-      this.humidityValue,
-    ];
-
+    this.humidityValueList = [...this.humidityValueList, this.humidityValue];
   };
 
-  ngOnInit(): void { }
+  onLivingRoomLightStatusReadingCallback = (topic: string, payload: string) => {
+    let componentStatus = JSON.parse(payload) as RelayComponentStatusDto;
+    this.lightStatus = componentStatus.status
+  };
 
-  ngOnDestroy() { }
+  onLivingRoomFanStatusReadingCallback = (topic: string, payload: string) => {
+    let componentStatus = JSON.parse(payload) as RelayComponentStatusDto;
+    this.fanStatus = componentStatus.status
+  };
+
+  ngOnInit(): void {}
+
+  ngOnDestroy() {}
 }
