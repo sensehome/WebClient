@@ -19,6 +19,12 @@ import { LayoutComponent } from './shared/layout/layout.component';
 import { DashboardCardComponent } from './shared/dashboard-card/dashboard-card.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { LineChartComponent } from './shared/line-chart/line-chart.component';
+import { LoginComponent } from './authentication/login/login.component';
+import { JwtModule } from "@auth0/angular-jwt";
+
+export function tokenGetter() {
+  return localStorage.getItem("jwt");
+}
 
 @NgModule({
   declarations: [
@@ -30,7 +36,8 @@ import { LineChartComponent } from './shared/line-chart/line-chart.component';
     TemperatureHumidityComponent,
     LayoutComponent,
     DashboardCardComponent,
-    LineChartComponent
+    LineChartComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +49,14 @@ import { LineChartComponent } from './shared/line-chart/line-chart.component';
     MatSlideToggleModule,
     BrowserAnimationsModule,
     NgApexchartsModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:5000"],
+        blacklistedRoutes: []
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],
