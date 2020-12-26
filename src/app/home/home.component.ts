@@ -3,6 +3,7 @@ import { HubConnectionState } from '@aspnet/signalr';
 import { TemperatureHumidityDto } from '../models/TemperatureHumidityDto';
 import { RelayComponentStatusDto } from '../models/RelayComponentStatusDto';
 import { AgentService } from '../services/agent.service';
+import { Status } from '../util/EnumTypes';
 
 @Component({
   selector: 'app-home',
@@ -14,8 +15,9 @@ export class HomeComponent implements OnInit {
   humidityValue: number = 0.0;
   temperatureValueList: number[] = [];
   humidityValueList: number[] = [];
-  lightStatus : string = "N/A"
-  fanStatus : string = "N/A";
+  lightStatus: string = "N/A"
+  fanStatus: string = "N/A";
+  fanSwitch: boolean = false
 
   constructor() {
     this.initializeAgentHubConnection();
@@ -56,10 +58,10 @@ export class HomeComponent implements OnInit {
 
     if (agentHub.state === HubConnectionState.Connected) {
       agentHub.on(
-        AgentService.RpcHubConnection,
+        AgentService.OnHubConnectionStatus,
         this.onAgentMqttConnectionCallback
       );
-      agentHub.on(AgentService.RpcHubBroadcast, (topic, payload) => {
+      agentHub.on(AgentService.OnHubBroadcast, (topic, payload) => {
         let callback = callbackMap.find((c) => c.topic === topic);
         if (callback) {
           callback.handler(topic, payload);
@@ -98,10 +100,20 @@ export class HomeComponent implements OnInit {
 
   onLivingRoomFanStatusReadingCallback = (topic: string, payload: string) => {
     let componentStatus = JSON.parse(payload) as RelayComponentStatusDto;
+    this.fanSwitch = componentStatus.status === Status.ON;
     this.fanStatus = componentStatus.status
   };
 
-  ngOnInit(): void {}
 
-  ngOnDestroy() {}
+
+  handleFanSwitch = (e: Event) => {
+    e.preventDefault()
+    let topic = 'home/living-room/fan/status/change'
+    let payload = JSON.stringify({ 'status': this.fanSwitch ? "OFF" : "ON" })
+    AgentService.getInstance().Hub.invoke(AgentService.RpcInvokePublish, topic, payload)
+  }
+
+  ngOnInit(): void { }
+
+  ngOnDestroy() { }
 }

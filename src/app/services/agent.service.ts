@@ -1,8 +1,9 @@
 import * as SignalR from "@aspnet/signalr"
 
 export class AgentService {
-  public static RpcHubConnection : string = "AgentConnectionStatus"
-  public static RpcHubBroadcast : string = "Broadcast"
+  public static OnHubConnectionStatus : string = "AgentConnectionStatus"
+  public static OnHubBroadcast : string = "Broadcast"
+  public static RpcInvokePublish : string = "PublishToMqttBroker"
 
   private static instance : AgentService
   public readonly Hub : SignalR.HubConnection
