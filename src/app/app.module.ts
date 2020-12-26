@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ChartsModule } from 'ng2-charts';
@@ -12,7 +11,6 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { SettingsComponent } from './settings/settings.component';
-import { TemperatureHumidityComponent } from './dashboard/temperature-humidity/temperature-humidity.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { LayoutComponent } from './shared/layout/layout.component';
@@ -30,10 +28,8 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     HomeComponent,
-    DashboardComponent,
     ProfileComponent,
     SettingsComponent,
-    TemperatureHumidityComponent,
     LayoutComponent,
     DashboardCardComponent,
     LineChartComponent,

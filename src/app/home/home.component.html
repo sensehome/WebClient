@@ -14,15 +14,16 @@
           cardColor="bg-primary"
           iconClass="fas fa-tint fa-2x"
           label="Humidity"
-          value="{{humidityValue}}%"
-        ></app-dashboard-card>
+          value="{{ humidityValue }}%"
+        >
+        </app-dashboard-card>
       </div>
       <div class="col-sm-4 col-md-3 col-lg-2">
         <app-dashboard-card
           cardColor="bg-danger"
           iconClass="fas fa-lightbulb fa-2x"
           label="Home Light"
-          value="On"
+          value="{{ lightStatus }}"
         ></app-dashboard-card>
       </div>
       <div class="col-sm-4 col-md-3 col-lg-2">
@@ -30,8 +31,23 @@
           cardColor="bg-danger"
           iconClass="fas fa-fan fa-2x"
           label="Home Fan"
-          value="On"
+          value="{{ fanStatus }}"
         ></app-dashboard-card>
+      </div>
+      <div class="col-sm-4 col-md-3 col-lg-2">
+        <div class="custom-control custom-switch">
+          <input
+            (change)="handleFanSwitch($event)"
+            type="checkbox"
+            class="custom-control-input"
+            id="customSwitch1"
+            value="{{ fanSwitch }}"
+            [checked]="fanSwitch"
+          />
+          <label class="custom-control-label" for="customSwitch1"
+            >Fan Switch</label
+          >
+        </div>
       </div>
     </div>
   </div>
