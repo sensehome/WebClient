@@ -12,7 +12,9 @@ export class TemperatureHumidityDashboardComponent implements OnInit {
   temperatueHumidityTable : any = [];
   constructor(private tableData: APIService) {
     tableData.getTemperatureHumidityDataByDateRange().subscribe(data=>{
-      console.log(data);
+
+      this.temperatueHumidityTable = data;
+      console.log(this.temperatueHumidityTable);
     })
    }
 
@@ -28,6 +30,6 @@ export class TemperatureHumidityDashboardComponent implements OnInit {
     {id: 3, first: 'Larry', last: 'the Bird', handle: '@twitter'},
   ];
 
-  headElements = ['ID', 'First', 'Last', 'Handle'];
+  headElements = ['Time', 'Temperature', 'Humidity'];
 
 }

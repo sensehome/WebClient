@@ -5,11 +5,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr mdbTableCol *ngFor="let el of elements">
-      <th scope="row">{{el.id}}</th>
-      <td>{{el.first}}</td>
-      <td>{{el.last}}</td>
-      <td>{{el.handle}}</td>
+    <tr mdbTableCol *ngFor="let el of temperatueHumidityTable; let i = index">
+      <th scope="row">{{el.date}}</th>
+      <td>{{el.temperature}}</td>
+      <td>{{el.humidity}}</td>
     </tr>
   </tbody>
 </table>
