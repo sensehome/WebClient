@@ -24,6 +24,7 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
 
       this.temperatureHumidityTable = data;
       this.mdbTable.setDataSource(this.temperatureHumidityTable);
+      console.log(this.temperatureHumidityTable);
     })
     this.temperatureHumidityTable = this.mdbTable.getDataSource();
     this.previous = this.mdbTable.getDataSource();
