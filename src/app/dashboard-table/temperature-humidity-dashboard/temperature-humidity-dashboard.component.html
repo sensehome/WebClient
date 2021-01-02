@@ -1,0 +1,21 @@
+<table mdbTable #tableEl="mdbTable" class="z-depth-1">
+  <thead>
+    <tr>
+      <th *ngFor="let head of headElements; let i = index" scope="col">{{head}} </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr mdbTableCol *ngFor="let el of temperatureHumidityTable; let i = index">
+      <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{el.date | date :'short'}}</th>
+      <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.temperature}}</td>
+      <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.humidity}}</td>
+    </tr>
+  </tbody>
+  <tfoot class="grey lighten-5 w-100">
+    <tr>
+      <td colspan="4">
+        <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="temperatureHumidityTable"></mdb-table-pagination>
+      </td>
+    </tr>
+    </tfoot>
+</table>
