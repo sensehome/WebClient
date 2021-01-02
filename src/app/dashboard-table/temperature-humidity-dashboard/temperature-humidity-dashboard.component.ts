@@ -13,7 +13,7 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
   elements: any = [];
   previous: any = [];
-  headElements = ['Time', 'Temperature', 'Humidity'];
+  headElements = ['Place','Time', 'Temperature', 'Humidity'];
   temperatureHumidityTable : any = [];
   constructor(private tableData: APIService,private cdRef: ChangeDetectorRef) {
 
