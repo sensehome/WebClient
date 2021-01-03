@@ -1,10 +1,22 @@
-.nav-link {
-  cursor: pointer;
-}
+
 .nav-item {
   padding: 2px;
   margin-left: 7px;
 }
+
+.nav-item:hover{
+  background-color: rgb(112, 106, 106);
+
+}
+
+.nav-item:focus{
+  color: blanchedalmond;
+}
+.nav-link:hover{
+  background-color: rgb(112, 106, 106);
+
+}
+
 
 ul {
   margin-left: 30%;

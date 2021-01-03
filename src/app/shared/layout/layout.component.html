@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
-  <a class="navbar-brand" href="#">SenseHome</a>
+  <a class="navbar-brand" style="background-color: #343a40; color: cornsilk;" href="#">SenseHome</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -7,17 +7,27 @@
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto" *ngIf="isUserAuthenticated()">
 
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/home">Home</a>
+      <li class="nav-item active">
+        <a class="nav-link" routerLinkActive="active" routerLinkActiveOptions="{ exact: true }" style="background-color: #343a40; color: cornsilk;" routerLink="/home">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+        <!-- <a class="nav-link" routerLink="/dashboard">History</a> -->
+        <div class="dropdown">
+          <a class="btn btn-secondary dropdown-toggle" style="background-color: #343a40; color: cornsilk;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            History
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item nav-link" style="background-color: #343a40; color: cornsilk; border-color: cornsilk;" routerLink="/dashboard">Temperature & Humidity</a>
+            <a class="dropdown-item nav-link" style="background-color: #343a40; color: cornsilk;" routerLink="/dashboard">Motion Detection</a>
+
+          </div>
+        </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/profile">Profile</a>
+        <a class="nav-link" style="background-color: #343a40; color: cornsilk;" routerLink="/profile">Profile</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" (click)="logOut()">Logout</a>
+        <a class="nav-link" style="background-color: #343a40; color: cornsilk;" (click)="logOut()">Logout</a>
       </li>
 
     </ul>
