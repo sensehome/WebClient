@@ -19,7 +19,7 @@ export class APIService {
       }),
     };
     if (authorized) {
-      config.headers.append(
+      config.headers = config.headers.set(
         'Authorization',
         `Bearer ${StoreService.getBearerToken()}`
       );
@@ -48,6 +48,7 @@ export class APIService {
   getTemperatureHumidityDataByDateRange = (): Observable<Object> => {
     let endpoint = `${API_ENDPOINT}/temperature-humidities`;
     let config = this.getRequestConfiguration(true);
+    console.log(config)
     return this.http.get(endpoint, config);
   };
 }
