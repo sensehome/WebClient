@@ -1,4 +1,5 @@
 import * as SignalR from '@aspnet/signalr';
+import { StoreService } from './store.service';
 
 export class AgentService {
   public static OnHubConnectionStatus: string = 'AgentConnectionStatus';
@@ -18,7 +19,7 @@ export class AgentService {
   public static getInstance(): AgentService {
     if (!AgentService.instance) {
       AgentService.instance = new AgentService(
-        `http://40.74.142.181/agenthub?access_token=${localStorage.getItem("jwt")}`
+        `http://40.74.142.181/agenthub?access_token=${StoreService.getBearerToken()}`
       );
     }
     return AgentService.instance;
