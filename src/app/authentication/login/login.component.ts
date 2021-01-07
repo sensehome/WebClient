@@ -1,7 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
+import { LoginDto, TokenDto } from 'src/app/models/AuthenticationDto';
+import { APIService } from 'src/app/services/api.service';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'login',
@@ -10,29 +12,19 @@ import { NgForm } from '@angular/forms';
 export class LoginComponent {
   invalidLogin: boolean;
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private apiService: APIService) { }
 
   login(form: NgForm) {
-    const credentials = JSON.stringify(form.value);
-    this.http.post("https://localhost:5001/api/auth/login", credentials, {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-    }).subscribe(response => {
-      // const token = (<any>response).token;
-      // console.log(typeof(JSON.stringify(response)));
-      // console.log(JSON.stringify(token));;
-      // const token = (<any>response).data["bearer"];
-      // console.log(token);
-      localStorage.setItem("jwt", JSON.stringify(response).slice(11,-2));
+    let loginData = form.value as LoginDto
+    this.apiService.login(loginData).subscribe(res => {
+      let token = res as TokenDto
+      StoreService.setBearerToken(token.bearer);
       this.invalidLogin = false;
       this.router.navigate(["/"]);
     }, err => {
       this.invalidLogin = true;
-    });
+    })
   }
-
-
 }
 
 
