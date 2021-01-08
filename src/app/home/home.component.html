@@ -1,93 +1,93 @@
 <div>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-4 col-md-3 col-lg-2">
-        <app-dashboard-card
-          cardColor="bg-warning"
-          iconClass="fas fa-thermometer-quarter fa-2x"
-          label="Temperature"
-          value="{{ temperatureValue }}"
-        ></app-dashboard-card>
-      </div>
-      <div class="col-sm-4 col-md-3 col-lg-2">
-        <app-dashboard-card
-          cardColor="bg-primary"
-          iconClass="fas fa-tint fa-2x"
-          label="Humidity"
-          value="{{ humidityValue }}%"
-        >
-        </app-dashboard-card>
-      </div>
-      <div class="col-sm-4 col-md-3 col-lg-2">
-        <app-dashboard-card
-          cardColor="bg-danger"
-          iconClass="fas fa-lightbulb fa-2x"
-          label="Home Light"
-          value="{{ lightStatus }}"
-        ></app-dashboard-card>
-      </div>
-      <div class="col-sm-4 col-md-3 col-lg-2">
-        <app-dashboard-card
-          cardColor="bg-danger"
-          iconClass="fas fa-fan fa-2x"
-          label="Home Fan"
-          value="{{ fanStatus }}"
-        ></app-dashboard-card>
-        <div class="col-sm-4 col-md-3 col-lg-2 fan-switch">
-          <div class="custom-control custom-switch">
-            <input
-              (change)="handleFanSwitch($event)"
-              type="checkbox"
-              class="custom-control-input"
-              id="customSwitch1"
-              value="{{ fanSwitch }}"
-              [checked]="fanSwitch"
-            />
-            <label class="custom-control-label" style="color: cornsilk;" for="customSwitch1"
-              >Switch</label
-            >
+      <div class="col-md-9 order-12 order-md-1">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-4 col-md-3 col-lg-3">
+              <app-dashboard-card cardColor="bg-warning" iconClass="fas fa-thermometer-quarter fa-2x"
+                label="Temperature" value="{{ temperatureValue }}"></app-dashboard-card>
+            </div>
+            <div class="col-sm-4 col-md-3 col-lg-3">
+              <app-dashboard-card cardColor="bg-primary" iconClass="fas fa-tint fa-2x" label="Humidity"
+                value="{{ humidityValue }}%">
+              </app-dashboard-card>
+            </div>
+            <div class="col-sm-4 col-md-3 col-lg-3">
+              <app-dashboard-card cardColor="bg-danger" iconClass="fas fa-lightbulb fa-2x" label="Home Light"
+                value="{{ lightStatus }}"></app-dashboard-card>
+            </div>
+            <div class="col-sm-4 col-md-3 col-lg-3">
+              <app-dashboard-card cardColor="bg-danger" iconClass="fas fa-fan fa-2x icon-spin" label="Home Fan"
+                value="{{ fanStatus }}"></app-dashboard-card>
+              <div class="col-sm-4 col-md-3 col-lg-2 fan-switch">
+                <div class="custom-control custom-switch">
+                  <input (change)="handleFanSwitch($event)" type="checkbox" class="custom-control-input"
+                    id="customSwitch1" value="{{ fanSwitch }}" [checked]="fanSwitch" />
+                  <label class="custom-control-label" style="color: cornsilk;" for="customSwitch1">Switch</label>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-sm-4 col-md-3 col-lg-2">
+                <div class="custom-control custom-switch">
+                  <input
+                    (change)="handleFanSwitch($event)"
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customSwitch1"
+                    value="{{ fanSwitch }}"
+                    [checked]="fanSwitch"
+                  />
+                  <label class="custom-control-label" for="customSwitch1"
+                    >Fan Switch</label
+                  >
+                </div>
+              </div> -->
+          </div>
+        </div>
+        <div class="container-fluid mt-4">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card">
+                <app-line-chart title="Realtime Temperature" chartName="Temperature"
+                  [lineValues]="[temperatureValueList]">
+                </app-line-chart>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <app-line-chart title="Realtime Humidity" chartName="Humidity" [lineValues]="[humidityValueList]">
+                </app-line-chart>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <!-- <div class="col-sm-4 col-md-3 col-lg-2">
-        <div class="custom-control custom-switch">
-          <input
-            (change)="handleFanSwitch($event)"
-            type="checkbox"
-            class="custom-control-input"
-            id="customSwitch1"
-            value="{{ fanSwitch }}"
-            [checked]="fanSwitch"
-          />
-          <label class="custom-control-label" for="customSwitch1"
-            >Fan Switch</label
-          >
+      <div class="col-md-3 order-1 order-md-12">
+        <div class="d-flex">
+          <div
+            [ngClass]="(isWebAndAgentIsConnected)? 'list-group-item bg-success flex-fill':'list-group-item bg-danger flex-fill'">
+            <span class="text-white">
+              {{isWebAndAgentIsConnected ? "Web-Agent" : "Web ! Agent"}}
+            </span>
+          </div>
+          <div
+            [ngClass]="(isAgentAndBrokerIsConnected)? 'list-group-item bg-success flex-fill':'list-group-item bg-danger flex-fill'">
+            <span class="text-white">
+              {{isAgentAndBrokerIsConnected ? "Agent-Broker" : "Agent ! Broker" }}
+            </span>
+          </div>
         </div>
-      </div> -->
-    </div>
-  </div>
-  <div class="container-fluid mt-4">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card">
-          <app-line-chart
-            title="Realtime Temperature"
-            chartName="Temperature"
-            [lineValues]="[temperatureValueList]"
-          >
-          </app-line-chart>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
-          <app-line-chart
-            title="Realtime Humidity"
-            chartName="Humidity"
-            [lineValues]="[humidityValueList]"
-          >
-          </app-line-chart>
+
+        <div class="mt-3 list-group-item">
+          <h6 class="text-center">Broker Clients</h6>
+          <ul>
+          <li *ngFor="let clientId of connectedClients; let i = index" class="list-group-item">
+            {{ i + 1 }} - {{ clientId }}
+          </li>
+          </ul>
         </div>
       </div>
     </div>
+
   </div>
-</div>

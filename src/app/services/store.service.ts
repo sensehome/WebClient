@@ -13,5 +13,9 @@ export const StoreService = {
             return token
         }
         return ""
+    },
+
+    removeBearerToken: () => {
+        localStorage.removeItem(KEYS.BEARER)
     }
 }

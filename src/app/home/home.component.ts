@@ -4,6 +4,7 @@ import { TemperatureHumidityDto } from '../models/TemperatureHumidityDto';
 import { RelayComponentStatusDto } from '../models/RelayComponentStatusDto';
 import { AgentService } from '../services/agent.service';
 import { Status } from '../util/EnumTypes';
+import { BrokerCommands, BrokerEvents } from '../util/BrokerSystTopics';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,11 @@ export class HomeComponent implements OnInit {
   fanStatus: string = "N/A";
   fanSwitch: boolean = false
 
+  isWebAndAgentIsConnected = false
+  isAgentAndBrokerIsConnected = false
+
+  connectedClients = []
+
   constructor() {
     this.initializeAgentHubConnection();
   }
@@ -30,11 +36,17 @@ export class HomeComponent implements OnInit {
       AgentService.getInstance()
         .Hub.start()
         .then(() => {
+          this.isWebAndAgentIsConnected = true
           this.agentHubSubsriptions();
         })
         .catch((err) => {
           console.log(err);
         });
+
+      AgentService.getInstance().Hub.onclose(err => {
+        this.isWebAndAgentIsConnected = false
+        this.autoReconnectAgent();
+      })
     }
   };
 
@@ -53,7 +65,7 @@ export class HomeComponent implements OnInit {
       {
         topic: 'home/living-room/fan/status',
         handler: this.onLivingRoomFanStatusReadingCallback,
-      },
+      }
     ];
 
     if (agentHub.state === HubConnectionState.Connected) {
@@ -62,6 +74,10 @@ export class HomeComponent implements OnInit {
         this.onAgentMqttConnectionCallback
       );
       agentHub.on(AgentService.OnHubBroadcast, (topic, payload) => {
+        if(topic.startsWith("$SYS")){
+          this.onSystemTopicsCallback(topic, payload)
+          return
+        }
         let callback = callbackMap.find((c) => c.topic === topic);
         if (callback) {
           callback.handler(topic, payload);
@@ -72,11 +88,22 @@ export class HomeComponent implements OnInit {
     }
   };
 
+  autoReconnectAgent = () => {
+    setTimeout(function () {
+      this.initializeAgentHubConnection()
+    }, 5000);
+  }
+
+  getBrokerStatus = () => {
+    AgentService.getInstance().Hub.invoke(AgentService.RpcInvokePublish, BrokerCommands.GetConnectedClients, "")
+  }
+
   onAgentMqttConnectionCallback = (isConnected: boolean) => {
     if (isConnected) {
-      alert(`Agent is Connected with Broker`);
+      this.isAgentAndBrokerIsConnected = true
+      this.getBrokerStatus();
     } else {
-      alert(`Agent is not Connected with Broker`);
+      this.isAgentAndBrokerIsConnected
     }
   };
 
@@ -104,6 +131,14 @@ export class HomeComponent implements OnInit {
     this.fanStatus = componentStatus.status
   };
 
+  onSystemTopicsCallback = (topic : string, payload : string) => {
+    if(topic === BrokerEvents.ConnectedClients){
+      console.log(payload)
+      let clients = JSON.parse(payload);
+      this.connectedClients = clients["IDList"]
+    }
+  }
+
 
 
   handleFanSwitch = (e: Event) => {
@@ -116,4 +151,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void { }
 
   ngOnDestroy() { }
+
+  /*
+
+    TODO: active clients, agent - broker status, client-agent signalr status
+  
+  */
 }
