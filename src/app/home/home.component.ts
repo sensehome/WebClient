@@ -5,6 +5,7 @@ import { RelayComponentStatusDto } from '../models/RelayComponentStatusDto';
 import { AgentService } from '../services/agent.service';
 import { Status } from '../util/EnumTypes';
 import { BrokerCommands, BrokerEvents } from '../util/BrokerSystTopics';
+import { APIService } from '../services/api.service';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,7 @@ export class HomeComponent implements OnInit {
 
   connectedClients = []
 
-  constructor() {
+  constructor(private apiService: APIService) {
     this.initializeAgentHubConnection();
   }
 
@@ -37,7 +38,9 @@ export class HomeComponent implements OnInit {
         .Hub.start()
         .then(() => {
           this.isWebAndAgentIsConnected = true
+          this.isAgentAndBrokerIsConnected = true
           this.agentHubSubsriptions();
+          this.getBrokerStatus()
         })
         .catch((err) => {
           console.log(err);
@@ -45,6 +48,7 @@ export class HomeComponent implements OnInit {
 
       AgentService.getInstance().Hub.onclose(err => {
         this.isWebAndAgentIsConnected = false
+        this.isAgentAndBrokerIsConnected = false
         this.autoReconnectAgent();
       })
     }
@@ -74,7 +78,7 @@ export class HomeComponent implements OnInit {
         this.onAgentMqttConnectionCallback
       );
       agentHub.on(AgentService.OnHubBroadcast, (topic, payload) => {
-        if(topic.startsWith("$SYS")){
+        if (topic.startsWith("$SYS")) {
           this.onSystemTopicsCallback(topic, payload)
           return
         }
@@ -100,10 +104,13 @@ export class HomeComponent implements OnInit {
 
   onAgentMqttConnectionCallback = (isConnected: boolean) => {
     if (isConnected) {
-      this.isAgentAndBrokerIsConnected = true
-      this.getBrokerStatus();
+      if (!this.isAgentAndBrokerIsConnected) {
+        this.isAgentAndBrokerIsConnected = true
+        this.getBrokerStatus();
+      }
+
     } else {
-      this.isAgentAndBrokerIsConnected
+      this.isAgentAndBrokerIsConnected = false
     }
   };
 
@@ -131,11 +138,17 @@ export class HomeComponent implements OnInit {
     this.fanStatus = componentStatus.status
   };
 
-  onSystemTopicsCallback = (topic : string, payload : string) => {
-    if(topic === BrokerEvents.ConnectedClients){
+  onSystemTopicsCallback = (topic: string, payload: string) => {
+    if (topic === BrokerEvents.ConnectedClients) {
       console.log(payload)
       let clients = JSON.parse(payload);
-      this.connectedClients = clients["IDList"]
+      let connectedMqttClientIds = clients["IDList"] as Array<string>
+      connectedMqttClientIds.forEach(id => {
+        this.apiService.getUserById(id).subscribe(res => {
+          this.connectedClients=[...this.connectedClients, res["name"]]
+        }, err => {
+        })
+      })
     }
   }
 
