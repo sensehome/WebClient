@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MdbTableDirective, MdbTablePaginationComponent } from 'angular-bootstrap-md';
 import { type } from 'os';
@@ -59,10 +58,11 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
   elements: any = [];
   previous: any = [];
+
   headElements = ['Place','Time', 'Temperature', 'Humidity'];
   temperatureHumidityTable : any = [];
-  constructor(private tableData: APIService,private cdRef: ChangeDetectorRef) {
-    this.tableData.getTemperatureHumidityDataByDateRange().subscribe(data=>{
+  constructor(private apiService: APIService,private cdRef: ChangeDetectorRef) {
+    this.apiService.getTemperatureHumidityDataByDateRange().subscribe(data=>{
 
       this.temperatureHumidityTable = data;
 
@@ -83,8 +83,7 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
    }
 
   ngOnInit() {
-    this.tableData.getTemperatureHumidityDataByDateRange().subscribe(data=>{
-
+    this.apiService.getTemperatureHumidityDataByDateRange().subscribe(data => {
       this.temperatureHumidityTable = data;
       this.mdbTable.setDataSource(this.temperatureHumidityTable);
     })
@@ -95,7 +94,6 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
 
   ngAfterViewInit() {
     this.mdbTablePagination.setMaxVisibleItemsNumberTo(10);
-
     this.mdbTablePagination.calculateFirstItemIndex();
     this.mdbTablePagination.calculateLastItemIndex();
     this.cdRef.detectChanges();
