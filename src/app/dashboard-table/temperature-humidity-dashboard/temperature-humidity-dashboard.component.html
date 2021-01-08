@@ -1,3 +1,17 @@
+<div style="display: block;">
+  <canvas mdbChart
+      [chartType]="chartType"
+      [datasets]="chartDatasets"
+      [labels]="chartLabels"
+      [colors]="chartColors"
+      [options]="chartOptions"
+      [legend]="true"
+      (chartHover)="chartHovered($event)"
+      (chartClick)="chartClicked($event)">
+  </canvas>
+</div>
+
+
 <table mdbTable #tableEl="mdbTable" class="z-depth-1">
   <thead>
     <tr>
@@ -6,8 +20,9 @@
   </thead>
   <tbody>
     <tr mdbTableCol *ngFor="let el of temperatureHumidityTable; let i = index">
-      <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{el.date | date :'short'}}</th>
-      <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.temperature}}</td>
+      <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{el.topic | substring:0:-21}}</th>
+      <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{el.date | date :'short'}}</td>
+      <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.temperature | substring:0:5 }}</td>
       <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.humidity}}</td>
     </tr>
   </tbody>

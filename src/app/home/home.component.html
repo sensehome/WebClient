@@ -33,8 +33,23 @@
           label="Home Fan"
           value="{{ fanStatus }}"
         ></app-dashboard-card>
+        <div class="col-sm-4 col-md-3 col-lg-2 fan-switch">
+          <div class="custom-control custom-switch">
+            <input
+              (change)="handleFanSwitch($event)"
+              type="checkbox"
+              class="custom-control-input"
+              id="customSwitch1"
+              value="{{ fanSwitch }}"
+              [checked]="fanSwitch"
+            />
+            <label class="custom-control-label" style="color: cornsilk;" for="customSwitch1"
+              >Switch</label
+            >
+          </div>
+        </div>
       </div>
-      <div class="col-sm-4 col-md-3 col-lg-2">
+      <!-- <div class="col-sm-4 col-md-3 col-lg-2">
         <div class="custom-control custom-switch">
           <input
             (change)="handleFanSwitch($event)"
@@ -48,7 +63,7 @@
             >Fan Switch</label
           >
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="container-fluid mt-4">
