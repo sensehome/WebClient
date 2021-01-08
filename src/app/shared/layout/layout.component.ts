@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'app-layout',
@@ -14,8 +15,8 @@ export class LayoutComponent implements OnInit {
   ngOnInit(){}
 
   isUserAuthenticated() {
-    const token: string = localStorage.getItem("jwt");
-    if (token && !this.jwtHelper.isTokenExpired(token)) {
+    const token: string = StoreService.getBearerToken();
+    if (token !== "" && !this.jwtHelper.isTokenExpired(token)) {
       return true;
     }
     else {
@@ -24,7 +25,7 @@ export class LayoutComponent implements OnInit {
   }
 
   logOut(){
-    localStorage.removeItem('jwt');
+    StoreService.removeBearerToken();
     this.router.navigate(["/login"])
   }
 
