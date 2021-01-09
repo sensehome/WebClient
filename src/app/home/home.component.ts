@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   temperatureValueList: number[] = [];
   humidityValueList: number[] = [];
   lightStatus: string = "N/A"
+  lightSwitch : boolean = false
   fanStatus: string = "N/A";
   fanSwitch: boolean = false
 
@@ -129,6 +130,7 @@ export class HomeComponent implements OnInit {
 
   onLivingRoomLightStatusReadingCallback = (topic: string, payload: string) => {
     let componentStatus = JSON.parse(payload) as RelayComponentStatusDto;
+    this.lightSwitch = componentStatus.status === Status.ON;
     this.lightStatus = componentStatus.status
   };
 
@@ -143,6 +145,7 @@ export class HomeComponent implements OnInit {
       console.log(payload)
       let clients = JSON.parse(payload);
       let connectedMqttClientIds = clients["IDList"] as Array<string>
+      this.connectedClients = []
       connectedMqttClientIds.forEach(id => {
         this.apiService.getUserById(id).subscribe(res => {
           this.connectedClients=[...this.connectedClients, res["name"]]
@@ -158,6 +161,13 @@ export class HomeComponent implements OnInit {
     e.preventDefault()
     let topic = 'home/living-room/fan/status/change'
     let payload = JSON.stringify({ 'status': this.fanSwitch ? "OFF" : "ON" })
+    AgentService.getInstance().Hub.invoke(AgentService.RpcInvokePublish, topic, payload)
+  }
+
+  handleLightSwitch = (e : Event) => {
+    e.preventDefault()
+    let topic = 'home/living-room/light/status/change'
+    let payload = JSON.stringify({ 'status': this.lightSwitch ? "OFF" : "ON" })
     AgentService.getInstance().Hub.invoke(AgentService.RpcInvokePublish, topic, payload)
   }
 

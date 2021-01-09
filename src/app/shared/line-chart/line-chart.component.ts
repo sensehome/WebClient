@@ -17,7 +17,7 @@ export class LineChartComponent implements OnInit {
       },
     ],
     chart: {
-      height: 350,
+      height: 300,
       type: 'line',
       id: 'realtime',
       animations: {
