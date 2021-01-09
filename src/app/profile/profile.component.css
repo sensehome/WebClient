@@ -1,0 +1,12 @@
+.Admin{
+  font-style: bold;
+  font-weight: bold;
+}
+.Online{
+  background-color: green;
+  color: white;
+}
+.Offline{
+  background-color:red;
+  color: white;
+}
