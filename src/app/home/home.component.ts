@@ -4,6 +4,8 @@ import { TemperatureHumidityDto } from '../models/TemperatureHumidityDto';
 import { RelayComponentStatusDto } from '../models/RelayComponentStatusDto';
 import { AgentService } from '../services/agent.service';
 import { Status } from '../util/EnumTypes';
+import { BrokerCommands, BrokerEvents } from '../util/BrokerSystTopics';
+import { APIService } from '../services/api.service';
 
 @Component({
   selector: 'app-home',
@@ -16,10 +18,16 @@ export class HomeComponent implements OnInit {
   temperatureValueList: number[] = [];
   humidityValueList: number[] = [];
   lightStatus: string = "N/A"
+  lightSwitch : boolean = false
   fanStatus: string = "N/A";
   fanSwitch: boolean = false
 
-  constructor() {
+  isWebAndAgentIsConnected = false
+  isAgentAndBrokerIsConnected = false
+
+  connectedClients = []
+
+  constructor(private apiService: APIService) {
     this.initializeAgentHubConnection();
   }
 
@@ -30,11 +38,20 @@ export class HomeComponent implements OnInit {
       AgentService.getInstance()
         .Hub.start()
         .then(() => {
+          this.isWebAndAgentIsConnected = true
+          this.isAgentAndBrokerIsConnected = true
           this.agentHubSubsriptions();
+          this.getBrokerStatus()
         })
         .catch((err) => {
           console.log(err);
         });
+
+      AgentService.getInstance().Hub.onclose(err => {
+        this.isWebAndAgentIsConnected = false
+        this.isAgentAndBrokerIsConnected = false
+        this.autoReconnectAgent();
+      })
     }
   };
 
@@ -53,7 +70,7 @@ export class HomeComponent implements OnInit {
       {
         topic: 'home/living-room/fan/status',
         handler: this.onLivingRoomFanStatusReadingCallback,
-      },
+      }
     ];
 
     if (agentHub.state === HubConnectionState.Connected) {
@@ -62,6 +79,10 @@ export class HomeComponent implements OnInit {
         this.onAgentMqttConnectionCallback
       );
       agentHub.on(AgentService.OnHubBroadcast, (topic, payload) => {
+        if (topic.startsWith("$SYS")) {
+          this.onSystemTopicsCallback(topic, payload)
+          return
+        }
         let callback = callbackMap.find((c) => c.topic === topic);
         if (callback) {
           callback.handler(topic, payload);
@@ -72,11 +93,25 @@ export class HomeComponent implements OnInit {
     }
   };
 
+  autoReconnectAgent = () => {
+    setTimeout(function () {
+      this.initializeAgentHubConnection()
+    }, 5000);
+  }
+
+  getBrokerStatus = () => {
+    AgentService.getInstance().Hub.invoke(AgentService.RpcInvokePublish, BrokerCommands.GetConnectedClients, "")
+  }
+
   onAgentMqttConnectionCallback = (isConnected: boolean) => {
     if (isConnected) {
-      alert(`Agent is Connected with Broker`);
+      if (!this.isAgentAndBrokerIsConnected) {
+        this.isAgentAndBrokerIsConnected = true
+        this.getBrokerStatus();
+      }
+
     } else {
-      alert(`Agent is not Connected with Broker`);
+      this.isAgentAndBrokerIsConnected = false
     }
   };
 
@@ -95,6 +130,7 @@ export class HomeComponent implements OnInit {
 
   onLivingRoomLightStatusReadingCallback = (topic: string, payload: string) => {
     let componentStatus = JSON.parse(payload) as RelayComponentStatusDto;
+    this.lightSwitch = componentStatus.status === Status.ON;
     this.lightStatus = componentStatus.status
   };
 
@@ -103,6 +139,21 @@ export class HomeComponent implements OnInit {
     this.fanSwitch = componentStatus.status === Status.ON;
     this.fanStatus = componentStatus.status
   };
+
+  onSystemTopicsCallback = (topic: string, payload: string) => {
+    if (topic === BrokerEvents.ConnectedClients) {
+      console.log(payload)
+      let clients = JSON.parse(payload);
+      let connectedMqttClientIds = clients["IDList"] as Array<string>
+      this.connectedClients = []
+      connectedMqttClientIds.forEach(id => {
+        this.apiService.getUserById(id).subscribe(res => {
+          this.connectedClients=[...this.connectedClients, res["name"]]
+        }, err => {
+        })
+      })
+    }
+  }
 
 
 
@@ -113,7 +164,20 @@ export class HomeComponent implements OnInit {
     AgentService.getInstance().Hub.invoke(AgentService.RpcInvokePublish, topic, payload)
   }
 
+  handleLightSwitch = (e : Event) => {
+    e.preventDefault()
+    let topic = 'home/living-room/light/status/change'
+    let payload = JSON.stringify({ 'status': this.lightSwitch ? "OFF" : "ON" })
+    AgentService.getInstance().Hub.invoke(AgentService.RpcInvokePublish, topic, payload)
+  }
+
   ngOnInit(): void { }
 
   ngOnDestroy() { }
+
+  /*
+
+    TODO: active clients, agent - broker status, client-agent signalr status
+  
+  */
 }
