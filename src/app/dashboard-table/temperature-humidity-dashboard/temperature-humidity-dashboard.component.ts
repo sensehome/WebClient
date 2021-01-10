@@ -83,14 +83,12 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
     this.apiService.getTemperatureHumidityDataByDateRange().subscribe(data=>{
 
       this.temperatureHumidityTable = data;
-      console.log(data);
 
       let temperatureHumidityDate = this.temperatureHumidityTable as Array<HistoryTemperatureHumidityDto>;
       temperatureHumidityDate.forEach(x =>
         {
 
           this.temperatureValue = x.temperature;
-          console.log(typeof(this.temperatureValue));
           this.temperatureValueList.push(this.temperatureValue);
           this.humidityValueList.push(x.humidity);
           var myDate = new Date(x.date);
@@ -103,9 +101,6 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
         this.chartHumidityDatasets =  [
           { data: this.humidityValueList, label: 'humidity' }
         ];
-      console.log(this.humidityValueList);
-      console.log(this.temperatureValueList);
-      console.log(this.dateValueList);
     })
 
     this.temperatureHumidityTable = this.mdbTable.getDataSource();
