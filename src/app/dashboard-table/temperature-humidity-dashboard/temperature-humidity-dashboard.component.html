@@ -1,32 +1,44 @@
-<div style="display: block; margin-bottom: 200px;" >
-  <canvas mdbChart
-      [chartType]="chartType"
-      [datasets]="chartTemperatureDatasets"
-      [labels]="chartLabels"
-      [colors]="chartTemperatureColors"
-      [options]="chartOptions"
-      [legend]="true"
-      (chartHover)="chartHovered($event)"
-      (chartClick)="chartClicked($event)">
-  </canvas>
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-md-6">
+      <div style="display: block;" >
+        <canvas mdbChart
+            [chartType]="chartType"
+            [datasets]="chartTemperatureDatasets"
+            [labels]="chartLabels"
+            [colors]="chartTemperatureColors"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+        </canvas>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div style="display: block;">
+        <canvas mdbChart
+            [chartType]="chartType"
+            [datasets]="chartHumidityDatasets"
+            [labels]="chartLabels"
+            [colors]="chartHumidityColors"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+        </canvas>
+      </div>
+    </div>
+  </div>
 </div>
 
 
-<div style="display: block; margin-bottom: 200px;">
-  <canvas mdbChart
-      [chartType]="chartType"
-      [datasets]="chartHumidityDatasets"
-      [labels]="chartLabels"
-      [colors]="chartHumidityColors"
-      [options]="chartOptions"
-      [legend]="true"
-      (chartHover)="chartHovered($event)"
-      (chartClick)="chartClicked($event)">
-  </canvas>
-</div>
 
 
-<table mdbTable #tableEl="mdbTable" class="z-depth-1" style="margin-top:200px" >
+
+
+
+<div style="margin-top:200px; padding: 25px;">
+<table mdbTable #tableEl="mdbTable" class="z-depth-1">
   <thead>
     <tr>
       <th *ngFor="let head of headElements; let i = index" scope="col">{{head}} </th>
@@ -48,3 +60,4 @@
     </tr>
     </tfoot>
 </table>
+</div>

@@ -1,6 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MdbTableDirective, MdbTablePaginationComponent } from 'angular-bootstrap-md';
-import { type } from 'os';
 import { HistoryTemperatureHumidityDto } from 'src/app/models/HistoryTemperatureHumidityDto';
 import { APIService } from 'src/app/services/api.service';
 
@@ -23,6 +22,7 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
   public chartTemperatureDatasets: Array<any> = [
     { data: this.temperatureValueList, label: 'temperature' }
   ];
+
   public chartHumidityDatasets: Array<any> = [
     { data: this.humidityValueList, label: 'humidity' }
   ];
@@ -83,6 +83,7 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
     this.apiService.getTemperatureHumidityDataByDateRange().subscribe(data=>{
 
       this.temperatureHumidityTable = data;
+      console.log(data);
 
       let temperatureHumidityDate = this.temperatureHumidityTable as Array<HistoryTemperatureHumidityDto>;
       temperatureHumidityDate.forEach(x =>
@@ -96,6 +97,12 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
           this.dateValueList.push(myDate.toUTCString());
         }
         );
+        this.chartTemperatureDatasets =  [
+          { data: this.temperatureValueList, label: 'temperature' }
+        ];
+        this.chartHumidityDatasets =  [
+          { data: this.humidityValueList, label: 'humidity' }
+        ];
       console.log(this.humidityValueList);
       console.log(this.temperatureValueList);
       console.log(this.dateValueList);
