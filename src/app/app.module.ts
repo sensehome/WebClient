@@ -21,6 +21,10 @@ import { LoginComponent } from './authentication/login/login.component';
 import { JwtModule } from "@auth0/angular-jwt";
 import { TemperatureHumidityDashboardComponent } from './dashboard-table/temperature-humidity-dashboard/temperature-humidity-dashboard.component';
 import { SubstringPipe } from './pipes/SubstringPipe';
+import { LogoutModalComponent } from './Modals/logout-modal/logout-modal.component';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -37,7 +41,8 @@ export function tokenGetter() {
     LineChartComponent,
     LoginComponent,
     TemperatureHumidityDashboardComponent,
-    SubstringPipe
+    SubstringPipe,
+    LogoutModalComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +54,8 @@ export function tokenGetter() {
     MatSlideToggleModule,
     BrowserAnimationsModule,
     NgApexchartsModule,
+    MatButtonModule,
+    MatDialogModule,
     MDBBootstrapModule.forRoot(),
     JwtModule.forRoot({
       config: {

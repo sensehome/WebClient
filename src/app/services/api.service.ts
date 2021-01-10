@@ -5,7 +5,10 @@ import { Observable } from 'rxjs';
 import { LoginDto } from '../models/AuthenticationDto';
 import { StoreService } from './store.service';
 
-const API_ENDPOINT = 'http://api.sensehome.online/api';
+// const API_ENDPOINT = 'http://api.sensehome.online/api';
+const API_ENDPOINT = 'http://localhost:5000/api';
+
+
 @Injectable({
   providedIn: 'root',
 })
