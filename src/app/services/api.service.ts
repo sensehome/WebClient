@@ -36,7 +36,8 @@ export class APIService {
 
   getAllUsers = (): Observable<Object> => {
     let endpoint = `${API_ENDPOINT}/users`;
-    return this.http.get(endpoint);
+    let config = this.getRequestConfiguration(true);
+    return this.http.get(endpoint,config);
   };
 
   getUserById =  (userId: string | number) : Observable<Object> => {
