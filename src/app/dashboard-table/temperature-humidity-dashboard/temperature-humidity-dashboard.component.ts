@@ -20,10 +20,6 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
 
   public chartType: string = 'line';
 
-  // public chartDatasets: Array<any> = [
-  //   { data: [65, 59, 80, 81, 56, 55, 40], label: 'My First dataset' },
-  //   { data: [28, 48, 40, 19, 86, 27, 90], label: 'My Second dataset' }
-  // ];
   public chartTemperatureDatasets: Array<any> = [
     { data: this.temperatureValueList, label: 'temperature' }
   ];
@@ -31,7 +27,6 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
     { data: this.humidityValueList, label: 'humidity' }
   ];
 
-  // public chartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public chartLabels: Array<any> = this.dateValueList;
 
 
@@ -51,6 +46,18 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
     }
   ];
   public chartOptions: any = {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }],
+        xAxes: [{
+              ticks: {
+                  display: false //this will remove only the label
+              }
+          }]
+    },
     responsive: true
   };
   public chartClicked(e: any): void { }
@@ -66,6 +73,13 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
   headElements = ['Place','Time', 'Temperature', 'Humidity'];
   temperatureHumidityTable : any = [];
   constructor(private apiService: APIService,private cdRef: ChangeDetectorRef) {
+   }
+
+  ngOnInit() {
+    this.apiService.getTemperatureHumidityDataByDateRange().subscribe(data => {
+      this.temperatureHumidityTable = data;
+      this.mdbTable.setDataSource(this.temperatureHumidityTable);
+    })
     this.apiService.getTemperatureHumidityDataByDateRange().subscribe(data=>{
 
       this.temperatureHumidityTable = data;
@@ -73,8 +87,10 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
       let temperatureHumidityDate = this.temperatureHumidityTable as Array<HistoryTemperatureHumidityDto>;
       temperatureHumidityDate.forEach(x =>
         {
-          console.log(x.temperature)
-          this.temperatureValueList.push(x.temperature);
+
+          this.temperatureValue = x.temperature;
+          console.log(typeof(this.temperatureValue));
+          this.temperatureValueList.push(this.temperatureValue);
           this.humidityValueList.push(x.humidity);
           var myDate = new Date(x.date);
           this.dateValueList.push(myDate.toUTCString());
@@ -83,13 +99,6 @@ export class TemperatureHumidityDashboardComponent implements OnInit, AfterViewI
       console.log(this.humidityValueList);
       console.log(this.temperatureValueList);
       console.log(this.dateValueList);
-    })
-   }
-
-  ngOnInit() {
-    this.apiService.getTemperatureHumidityDataByDateRange().subscribe(data => {
-      this.temperatureHumidityTable = data;
-      this.mdbTable.setDataSource(this.temperatureHumidityTable);
     })
 
     this.temperatureHumidityTable = this.mdbTable.getDataSource();
