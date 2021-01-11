@@ -25,6 +25,7 @@ import { LogoutModalComponent } from './Modals/logout-modal/logout-modal.compone
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NavbarModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -56,6 +57,9 @@ export function tokenGetter() {
     NgApexchartsModule,
     MatButtonModule,
     MatDialogModule,
+    NavbarModule,
+    WavesModule,
+    ButtonsModule,
     MDBBootstrapModule.forRoot(),
     JwtModule.forRoot({
       config: {
