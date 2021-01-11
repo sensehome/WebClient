@@ -3,9 +3,13 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { LoginDto } from '../models/AuthenticationDto';
+import { UsersDto } from '../models/UsersDto';
 import { StoreService } from './store.service';
 
-const API_ENDPOINT = 'http://api.sensehome.online/api';
+// const API_ENDPOINT = 'http://api.sensehome.online/api';
+const API_ENDPOINT = 'http://localhost:5000/api';
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -46,7 +50,12 @@ export class APIService {
     return this.http.get(endpoint, config);
   };
 
-  createUser = () => { };
+  createUser = (data: UsersDto): Observable<Object> => {
+    let endpoint = `${API_ENDPOINT}/users`;
+    let body = JSON.stringify(data);
+    let config = this.getRequestConfiguration(true);
+    return this.http.post(endpoint, body, config);
+   };
 
   createProfile: () => {};
 

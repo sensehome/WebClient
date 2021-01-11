@@ -16,7 +16,10 @@
   background-color: rgb(112, 106, 106);
 
 }
-
+.logoutbutton{
+    color: white;
+    background-color: #4b4b4b;
+}
 
 ul {
   margin-left: 30%;
@@ -25,3 +28,9 @@ ul {
 nav {
   margin-bottom: 200px;
 }
+
+.navBackground{
+  background-color:#1f5e90 !important;
+}
+
+

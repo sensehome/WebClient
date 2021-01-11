@@ -1,35 +1,44 @@
-<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
-  <a class="navbar-brand" style="background-color: #343a40; color: cornsilk;" href="#">SenseHome</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
+
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark green lighten-1" [containerInside]="false">
+
+  <mdb-navbar-brand><a class="navbar-brand" routerLink="/home">Sensehome</a></mdb-navbar-brand>
+
+  <links>
+
     <ul class="navbar-nav mr-auto" *ngIf="isUserAuthenticated()">
-
       <li class="nav-item active">
-        <a class="nav-link" routerLinkActive="active" routerLinkActiveOptions="{ exact: true }" style="background-color: #343a40; color: cornsilk;" routerLink="/home">Home</a>
+        <a class="nav-link waves-light" routerLinkActive="active" routerLink="/home" mdbWavesEffect>Home<span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <!-- <a class="nav-link" routerLink="/dashboard">History</a> -->
-        <div class="dropdown">
-          <a class="btn btn-secondary dropdown-toggle" style="background-color: #343a40; color: cornsilk;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            History
-          </a>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item nav-link" style="background-color: #343a40; color: cornsilk; border-color: cornsilk;" routerLink="/dashboard">Temperature & Humidity</a>
-            <a class="dropdown-item nav-link" style="background-color: #343a40; color: cornsilk;" routerLink="/dashboard">Motion Detection</a>
 
-          </div>
+      <li class="nav-item dropdown" dropdown>
+        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+          History<span class="caret"></span></a>
+        <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/dashboard">Temperature and Humidity</a>
+          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/dashboard">Motion Detection</a>
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" style="background-color: #343a40; color: cornsilk;" routerLink="/profile">Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" style="background-color: #343a40; color: cornsilk;" (click)="logOut()">Logout</a>
+        <a class="nav-link waves-light" routerLink="/profile" mdbWavesEffect>Profile</a>
       </li>
 
+
+
     </ul>
-  </div>
-</nav>
+
+
+    <ul class="navbar-nav ml-auto nav-flex-icons" *ngIf="isUserAuthenticated()">
+      <li class="nav-item">
+        <a class="nav-link">1 <mdb-icon fas icon="envelope"></mdb-icon></a>
+      </li>
+      <li class="nav-item avatar dropdown" dropdown>
+        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+          <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" alt="" class="img-fluid rounded-circle z-depth-0"></a>
+        <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
+          <a class="dropdown-item waves-light" (click)="logOutPopUp()" mdbWavesEffect>Log out</a>
+        </div>
+      </li>
+    </ul>
+  </links>
+
+</mdb-navbar>
