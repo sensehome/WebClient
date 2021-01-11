@@ -17,6 +17,10 @@
           <input type="email" id="defaultForm-email" formControlName="name" placeholder="" class="form-control"
                  mdbInput mdbValidate>
           <label for="defaultForm-email">Name</label>
+          <mdb-error
+            *ngIf="headingMessage">
+            Duplicate Name Error
+          </mdb-error>
         </div>
         <div class="md-form mb-4">
           <mdb-icon fas icon="user-tag" class="prefix grey-text"></mdb-icon>

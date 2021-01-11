@@ -1,7 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MdbTableDirective, MdbTablePaginationComponent } from 'angular-bootstrap-md';
 import { APIService } from 'src/app/services/api.service';
+import { UsersDto } from '../models/UsersDto';
+import { ModalModule, TooltipModule, PopoverModule, ButtonsModule } from 'angular-bootstrap-md'
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +21,9 @@ export class ProfileComponent implements OnInit {
   headElements = ['Name', 'Role', 'Status'];
   usersTable: any = [];
   UserForm: FormGroup;
-  constructor(private apiService: APIService, private cdRef: ChangeDetectorRef) {
+  headingMessage: string = "";
+  checkError = false;
+  constructor(private apiService: APIService, private cdRef: ChangeDetectorRef,private router: Router, private modal: ModalModule) {
 
   }
 
@@ -46,8 +52,14 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit(){
-    const value = { ...this.UserForm.value, type: +this.UserForm.value.type };
-    console.log(value);
+    const value = { ...this.UserForm.value, type: +this.UserForm.value.type } as UsersDto;
+    this.apiService.createUser(value).subscribe(
+      (response) => window.location.reload(),
+      (error) => this.headingMessage = error.message
+    )
+    
+
+
   }
 
 
