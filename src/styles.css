@@ -5,7 +5,7 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 mat-dialog-container#logout-modal {
-  border: 3px solid #262626;
+  border: 3px solid #66bb6a !important;
   border-radius: 11px;
-  background-color: #1a1a1a;
+  background-color:#66bb6a !important
 }
