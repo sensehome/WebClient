@@ -80,26 +80,31 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <table mdbTable #tableEl="mdbTable" class="z-depth-1">
-        <thead>
-          <tr>
-            <th class = "headers"  *ngFor="let head of subscriptionHeadElements; let i = index" scope="col">{{head}} </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr mdbTableCol *ngFor="let el of usersTable; let i = index">
-            <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{el.name}}</th>
-            <td> <button (click) = "Subscription(el.id)" (click)="frame2.show()" mat-raised-button color="primary">Subscriptions</button></td>
-          </tr>
-        </tbody>
-        <tfoot class="grey lighten-5 w-100">
-          <tr>
-            <td colspan="4">
-              <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="usersTable"></mdb-table-pagination>
-            </td>
-          </tr>
-          </tfoot>
-      </table>
+      <mat-form-field class="example-chip-list">
+        <!-- <mat-label>Favorite Fruits</mat-label> -->
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip
+            *ngFor="let fruit of fruits"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(fruit)">
+            {{fruit}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            #fruitInput
+            [formControl]="fruitCtrl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+            {{fruit}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
     </div>
   </div>
 </div>

@@ -46,6 +46,14 @@ export class APIService {
 
   getProfileByUserId: (userId: string | number) => {};
 
+
+  getSubscriptionsByUserId = (userId: string | number) : Observable<Object> => {
+    let endpoint = `${API_ENDPOINT}/users/${userId}/subscriptions`;
+    let config = this.getRequestConfiguration(true);
+    return this.http.get(endpoint,config);
+  };
+
+
   createUser = (data: UsersDto): Observable<Object> => {
     let endpoint = `${API_ENDPOINT}/users`;
     let body = JSON.stringify(data);

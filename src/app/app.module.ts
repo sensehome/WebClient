@@ -27,6 +27,11 @@ import { LogoutModalComponent } from './Modals/logout-modal/logout-modal.compone
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NavbarModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+
+import {MatChipsModule} from '@angular/material/chips';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -62,6 +67,10 @@ export function tokenGetter() {
     NavbarModule,
     WavesModule,
     ButtonsModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatIconModule,
     MDBBootstrapModule.forRoot(),
     JwtModule.forRoot({
       config: {
