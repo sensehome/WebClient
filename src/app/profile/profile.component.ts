@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   headElements = ['Name', 'Role','Subscription', 'Status'];
   subscriptionHeadElements = ['Name','Edit'];
   usersTable: any = [];
-  subscriptionTable: any = [];
+  subscriptionTable: string[] = [];
   UserForm: FormGroup;
   headingMessage: string = "";
   checkError = false;
@@ -126,7 +126,11 @@ export class ProfileComponent implements OnInit {
     console.log(id);
     this.apiService.getSubscriptionsByUserId(id).subscribe(data => {
       let sub = data as SubscriptionDto;
-      this.fruits.push(... sub.path);
+      this.fruits = [];
+      if(id === sub.userId){
+        console.log(sub);
+      }
+
     })
 
   }
