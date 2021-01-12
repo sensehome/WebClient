@@ -19,19 +19,17 @@
           <label for="defaultForm-email">Name</label>
           <mdb-error
             *ngIf="headingMessage">
-            Duplicate Name Error
+           User exists with the same name
           </mdb-error>
         </div>
         <div class="md-form mb-4">
           <mdb-icon fas icon="user-tag" class="prefix grey-text"></mdb-icon>
           <label style="margin-left: 10%; margin-top: -7%; color: green">Role</label>
           <select style="width: 91%; margin-left: 9%; margin-bottom: 5%;" formControlName="type" class="browser-default custom-select">
-            <!-- <option selected>Role</option> -->
             <option value="1">Admin</option>
             <option value="2">User</option>
             <option value="3">Device</option>
           </select>
-          <!-- <label for="defaultForm-checkbox">Role</label> -->
         </div>
 
         <div class="md-form mb-4">
@@ -59,7 +57,7 @@
     <tr mdbTableCol *ngFor="let el of usersTable; let i = index">
       <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{el.name}}</th>
       <td [ngClass] = 'el.type == 1 ? "Admin": el.type == 2 ? "User": "Device"' *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.type == 1 ? "Admin": el.type == 2 ? "User": "Device"}}</td>
-      <td> <button (click) = "Subscription(el.id)" mat-raised-button color="primary">Subscriptions</button></td>
+      <td> <button (click) = "Subscription(el.id)" (click)="frame2.show()" mat-raised-button color="primary">Subscriptions</button></td>
       <td [ngClass] = 'el.isActive? "Online": "Offline"' *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.isActive? "Online": "Offline"}}</td>
     </tr>
   </tbody>
@@ -71,3 +69,37 @@
     </tr>
     </tfoot>
 </table>
+
+<div mdbModal #frame2="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Subscriptions</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame2.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <table mdbTable #tableEl="mdbTable" class="z-depth-1">
+        <thead>
+          <tr>
+            <th class = "headers"  *ngFor="let head of subscriptionHeadElements; let i = index" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let el of usersTable; let i = index">
+            <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{el.name}}</th>
+            <td> <button (click) = "Subscription(el.id)" (click)="frame2.show()" mat-raised-button color="primary">Subscriptions</button></td>
+          </tr>
+        </tbody>
+        <tfoot class="grey lighten-5 w-100">
+          <tr>
+            <td colspan="4">
+              <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="usersTable"></mdb-table-pagination>
+            </td>
+          </tr>
+          </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

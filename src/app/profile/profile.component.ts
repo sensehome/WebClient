@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
   elements: any = [];
   previous: any = [];
   headElements = ['Name', 'Role','Subscription', 'Status'];
+  subscriptionHeadElements = ['Name','Edit'];
   usersTable: any = [];
   UserForm: FormGroup;
   headingMessage: string = "";
