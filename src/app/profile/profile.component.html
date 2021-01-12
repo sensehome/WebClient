@@ -59,6 +59,7 @@
     <tr mdbTableCol *ngFor="let el of usersTable; let i = index">
       <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">{{el.name}}</th>
       <td [ngClass] = 'el.type == 1 ? "Admin": el.type == 2 ? "User": "Device"' *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.type == 1 ? "Admin": el.type == 2 ? "User": "Device"}}</td>
+      <td> <button (click) = "Subscription(el.id)" mat-raised-button color="primary">Subscriptions</button></td>
       <td [ngClass] = 'el.isActive? "Online": "Offline"' *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.isActive? "Online": "Offline"}}</td>
     </tr>
   </tbody>

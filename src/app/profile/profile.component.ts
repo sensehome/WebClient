@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
   elements: any = [];
   previous: any = [];
-  headElements = ['Name', 'Role', 'Status'];
+  headElements = ['Name', 'Role','Subscription', 'Status'];
   usersTable: any = [];
   UserForm: FormGroup;
   headingMessage: string = "";
@@ -37,7 +37,6 @@ export class ProfileComponent implements OnInit {
     });
     this.apiService.getAllUsers().subscribe(data => {
       this.usersTable = data;
-      // console.log(this.usersTable);
       this.mdbTable.setDataSource(this.usersTable);
     })
     this.usersTable = this.mdbTable.getDataSource();
@@ -57,9 +56,10 @@ export class ProfileComponent implements OnInit {
       (response) => window.location.reload(),
       (error) => this.headingMessage = error.message
     )
-    
+  }
 
-
+  Subscription(id?: string){
+    console.log(id);
   }
 
 
