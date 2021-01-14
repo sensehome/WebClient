@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
+import { UserManagementComponent } from './user-management/user.management.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
@@ -41,7 +41,7 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     HomeComponent,
-    ProfileComponent,
+    UserManagementComponent,
     SettingsComponent,
     LayoutComponent,
     DashboardCardComponent,

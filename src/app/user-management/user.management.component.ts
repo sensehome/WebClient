@@ -19,10 +19,10 @@ import {map, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  templateUrl: './user.management.component.html',
+  styleUrls: ['./user.management.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class UserManagementComponent implements OnInit {
 
   @ViewChild(MdbTablePaginationComponent, { static: true }) mdbTablePagination: MdbTablePaginationComponent;
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
@@ -133,7 +133,5 @@ export class ProfileComponent implements OnInit {
     })
 
   }
-
-
 
 }

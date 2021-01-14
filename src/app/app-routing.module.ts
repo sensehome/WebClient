@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './authentication/login/login.component';
 import { TemperatureHumidityDashboardComponent } from './dashboard-table/temperature-humidity-dashboard/temperature-humidity-dashboard.component';
 import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
+import { UserManagementComponent } from './user-management/user.management.component';
 import { AuthGuard } from './services/authentication-guard.service';
 import { SettingsComponent } from './settings/settings.component';
 
@@ -11,7 +11,7 @@ const routes: Routes = [
   {path:  "", pathMatch:  "full",redirectTo:  "home"},
   {path: "home", component: HomeComponent, canActivate:[AuthGuard]},
   {path: "history/temperature-humidity", component: TemperatureHumidityDashboardComponent, canActivate:[AuthGuard]},
-  {path: "users", component: ProfileComponent},
+  {path: "users", component: UserManagementComponent},
   {path: "settings", component: SettingsComponent},
   {path: "login", component: LoginComponent}
 ];
