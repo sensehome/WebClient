@@ -13,9 +13,9 @@ import { HistoryTemperatureHumidityDto } from 'src/app/models/HistoryTemperature
 import { APIService } from 'src/app/services/api.service';
 
 @Component({
-  selector: 'app-temperature-humidity-dashboard',
-  templateUrl: './temperature-humidity-dashboard.component.html',
-  styleUrls: ['./temperature-humidity-dashboard.component.css'],
+  selector: 'app-temperature-humidity',
+  templateUrl: './temperature.humidity.component.html',
+  styleUrls: ['./temperature.humidity.component.css'],
 })
 export class TemperatureHumidityDashboardComponent
   implements OnInit, AfterViewInit {

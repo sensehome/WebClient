@@ -1,7 +1,7 @@
 import { Component, NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './authentication/login/login.component';
-import { TemperatureHumidityDashboardComponent } from './dashboard-table/temperature-humidity-dashboard/temperature-humidity-dashboard.component';
+import { TemperatureHumidityDashboardComponent } from './histories/temperature-humidity/temperature.humidity.component';
 import { HomeComponent } from './home/home.component';
 import { UserManagementComponent } from './user-management/user.management.component';
 import { AuthGuard } from './services/authentication-guard.service';
