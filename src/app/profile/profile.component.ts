@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MdbTableDirective, MdbTablePaginationComponent } from 'angular-bootstrap-md';
 import { APIService } from 'src/app/services/api.service';
 import { UsersDto } from '../models/UsersDto';
-import { ModalModule, TooltipModule, PopoverModule, ButtonsModule } from 'angular-bootstrap-md'
+import { ModalModule } from 'angular-bootstrap-md'
 import { SubscriptionDto } from '../models/SubscriptionDto';
 import { Observable } from 'rxjs/internal/Observable';
 
