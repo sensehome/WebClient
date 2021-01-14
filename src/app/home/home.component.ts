@@ -7,6 +7,7 @@ import { Status } from '../util/EnumTypes';
 import { BrokerCommands, BrokerEvents } from '../util/BrokerSystTopics';
 import { APIService } from '../services/api.service';
 import { MotionDetectionDto } from '../models/MotionDetectionDto';
+import AudioService from '../services/audio.service';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,9 @@ export class HomeComponent implements OnInit {
 
   isActiveConnectionLoading = false;
 
-  isHomeAlertHasSignal : boolean = false;
+  isHomeAlertHasSignal: boolean = false;
+
+  audioAlert: any;
 
   constructor(private apiService: APIService) {
     this.initializeAgentHubConnection();
@@ -57,7 +60,7 @@ export class HomeComponent implements OnInit {
         this.isAgentAndBrokerIsConnected = false;
         this.autoReconnectAgent();
       });
-    }else{
+    } else {
       this.isWebAndAgentIsConnected = true
     }
   };
@@ -154,9 +157,20 @@ export class HomeComponent implements OnInit {
     this.fanStatus = componentStatus.status;
   };
 
-  onMotionDetectionCallback = (topic : string, payload : string) => {
+  onMotionDetectionCallback = (topic: string, payload: string) => {
     let status = JSON.parse(payload) as MotionDetectionDto;
     this.isHomeAlertHasSignal = status.signal;
+    if (status.signal) {
+      AudioService.alert()
+      this.audioAlert = setInterval(() => {
+        AudioService.alert()
+      }, 1500);
+    } else {
+      if(this.audioAlert){
+        clearInterval(this.audioAlert);
+      }
+     
+    }
   };
 
   onSystemTopicsCallback = (topic: string, payload: string) => {
@@ -176,7 +190,7 @@ export class HomeComponent implements OnInit {
               this.isActiveConnectionLoading = false;
             }
           },
-          (err) => {}
+          (err) => { }
         );
       });
     }
@@ -204,7 +218,8 @@ export class HomeComponent implements OnInit {
     );
   };
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 }
