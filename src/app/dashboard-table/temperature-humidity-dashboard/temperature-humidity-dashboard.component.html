@@ -1,5 +1,5 @@
-<div class="p-3">
-  <div class="container-fluid mt-4 p-3">
+<div>
+  <div class="container-fluid">
     <div class="row">
       <div class="col-md-6">
         <div style="display: block;">
@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div class="mt-2 pr-4 pl-4">
+  <div class="mt-4 pr-3 pl-3">
     <table mdbTable #tableEl="mdbTable" class="z-depth-1">
       <thead>
         <tr>
@@ -33,15 +33,15 @@
             {{el.topic | substring:0:-21}}</th>
           <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
             {{el.date | date :'short'}}</td>
-          <td class="needMargin"
+          <td class=""
             *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.temperature |
             substring:0:5 }}</td>
-          <td class="needMargin"
+          <td class=""
             *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.humidity}}
           </td>
         </tr>
       </tbody>
-      <tfoot class="grey lighten-5 w-100">
+      <tfoot class="grey lighten-5">
         <tr>
           <td colspan="4">
             <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="temperatureHumidityTable">
