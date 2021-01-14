@@ -17,15 +17,17 @@ export class HomeComponent implements OnInit {
   humidityValue: number = 0.0;
   temperatureValueList: number[] = [];
   humidityValueList: number[] = [];
-  lightStatus: string = "N/A"
-  lightSwitch : boolean = false
-  fanStatus: string = "N/A";
-  fanSwitch: boolean = false
+  lightStatus: string = 'N/A';
+  lightSwitch: boolean = false;
+  fanStatus: string = 'N/A';
+  fanSwitch: boolean = false;
 
-  isWebAndAgentIsConnected = false
-  isAgentAndBrokerIsConnected = false
+  isWebAndAgentIsConnected = false;
+  isAgentAndBrokerIsConnected = false;
 
-  connectedClients = []
+  connectedClients = [];
+
+  isActiveConnectionLoading = false;
 
   constructor(private apiService: APIService) {
     this.initializeAgentHubConnection();
@@ -38,20 +40,20 @@ export class HomeComponent implements OnInit {
       AgentService.getInstance()
         .Hub.start()
         .then(() => {
-          this.isWebAndAgentIsConnected = true
-          this.isAgentAndBrokerIsConnected = true
+          this.isWebAndAgentIsConnected = true;
+          this.isAgentAndBrokerIsConnected = true;
           this.agentHubSubsriptions();
-          this.getBrokerStatus()
+          this.getBrokerStatus();
         })
         .catch((err) => {
           console.log(err);
         });
 
-      AgentService.getInstance().Hub.onclose(err => {
-        this.isWebAndAgentIsConnected = false
-        this.isAgentAndBrokerIsConnected = false
+      AgentService.getInstance().Hub.onclose((err) => {
+        this.isWebAndAgentIsConnected = false;
+        this.isAgentAndBrokerIsConnected = false;
         this.autoReconnectAgent();
-      })
+      });
     }
   };
 
@@ -70,7 +72,7 @@ export class HomeComponent implements OnInit {
       {
         topic: 'home/living-room/fan/status',
         handler: this.onLivingRoomFanStatusReadingCallback,
-      }
+      },
     ];
 
     if (agentHub.state === HubConnectionState.Connected) {
@@ -79,9 +81,9 @@ export class HomeComponent implements OnInit {
         this.onAgentMqttConnectionCallback
       );
       agentHub.on(AgentService.OnHubBroadcast, (topic, payload) => {
-        if (topic.startsWith("$SYS")) {
-          this.onSystemTopicsCallback(topic, payload)
-          return
+        if (topic.startsWith('$SYS')) {
+          this.onSystemTopicsCallback(topic, payload);
+          return;
         }
         let callback = callbackMap.find((c) => c.topic === topic);
         if (callback) {
@@ -95,23 +97,26 @@ export class HomeComponent implements OnInit {
 
   autoReconnectAgent = () => {
     setTimeout(function () {
-      this.initializeAgentHubConnection()
+      this.initializeAgentHubConnection();
     }, 5000);
-  }
+  };
 
   getBrokerStatus = () => {
-    AgentService.getInstance().Hub.invoke(AgentService.RpcInvokePublish, BrokerCommands.GetConnectedClients, "")
-  }
+    AgentService.getInstance().Hub.invoke(
+      AgentService.RpcInvokePublish,
+      BrokerCommands.GetConnectedClients,
+      ''
+    );
+  };
 
   onAgentMqttConnectionCallback = (isConnected: boolean) => {
     if (isConnected) {
       if (!this.isAgentAndBrokerIsConnected) {
-        this.isAgentAndBrokerIsConnected = true
+        this.isAgentAndBrokerIsConnected = true;
         this.getBrokerStatus();
       }
-
     } else {
-      this.isAgentAndBrokerIsConnected = false
+      this.isAgentAndBrokerIsConnected = false;
     }
   };
 
@@ -131,53 +136,61 @@ export class HomeComponent implements OnInit {
   onLivingRoomLightStatusReadingCallback = (topic: string, payload: string) => {
     let componentStatus = JSON.parse(payload) as RelayComponentStatusDto;
     this.lightSwitch = componentStatus.status === Status.ON;
-    this.lightStatus = componentStatus.status
+    this.lightStatus = componentStatus.status;
   };
 
   onLivingRoomFanStatusReadingCallback = (topic: string, payload: string) => {
     let componentStatus = JSON.parse(payload) as RelayComponentStatusDto;
     this.fanSwitch = componentStatus.status === Status.ON;
-    this.fanStatus = componentStatus.status
+    this.fanStatus = componentStatus.status;
   };
 
   onSystemTopicsCallback = (topic: string, payload: string) => {
     if (topic === BrokerEvents.ConnectedClients) {
-      console.log(payload)
+      if (this.isActiveConnectionLoading) {
+        return;
+      }
+      this.isActiveConnectionLoading = true;
       let clients = JSON.parse(payload);
-      let connectedMqttClientIds = clients["IDList"] as Array<string>
-      this.connectedClients = []
-      connectedMqttClientIds.forEach(id => {
-        this.apiService.getUserById(id).subscribe(res => {
-          this.connectedClients=[...this.connectedClients, res["name"]]
-        }, err => {
-        })
-      })
+      let connectedMqttClientIds = clients['IDList'] as Array<string>;
+      this.connectedClients = [];
+      connectedMqttClientIds.forEach((id, index) => {
+        this.apiService.getUserById(id).subscribe(
+          (res) => {
+            this.connectedClients = [...this.connectedClients, res['name']];
+            if (index === connectedMqttClientIds.length - 1) {
+              this.isActiveConnectionLoading = false;
+            }
+          },
+          (err) => {}
+        );
+      });
     }
-  }
-
-
+  };
 
   handleFanSwitch = (e: Event) => {
-    e.preventDefault()
-    let topic = 'home/living-room/fan/status/change'
-    let payload = JSON.stringify({ 'status': this.fanSwitch ? "OFF" : "ON" })
-    AgentService.getInstance().Hub.invoke(AgentService.RpcInvokePublish, topic, payload)
-  }
+    e.preventDefault();
+    let topic = 'home/living-room/fan/status/change';
+    let payload = JSON.stringify({ status: this.fanSwitch ? 'OFF' : 'ON' });
+    AgentService.getInstance().Hub.invoke(
+      AgentService.RpcInvokePublish,
+      topic,
+      payload
+    );
+  };
 
-  handleLightSwitch = (e : Event) => {
-    e.preventDefault()
-    let topic = 'home/living-room/light/status/change'
-    let payload = JSON.stringify({ 'status': this.lightSwitch ? "OFF" : "ON" })
-    AgentService.getInstance().Hub.invoke(AgentService.RpcInvokePublish, topic, payload)
-  }
+  handleLightSwitch = (e: Event) => {
+    e.preventDefault();
+    let topic = 'home/living-room/light/status/change';
+    let payload = JSON.stringify({ status: this.lightSwitch ? 'OFF' : 'ON' });
+    AgentService.getInstance().Hub.invoke(
+      AgentService.RpcInvokePublish,
+      topic,
+      payload
+    );
+  };
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
-  ngOnDestroy() { }
-
-  /*
-
-    TODO: active clients, agent - broker status, client-agent signalr status
-  
-  */
+  ngOnDestroy() {}
 }
