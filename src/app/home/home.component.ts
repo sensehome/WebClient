@@ -6,6 +6,7 @@ import { AgentService } from '../services/agent.service';
 import { Status } from '../util/EnumTypes';
 import { BrokerCommands, BrokerEvents } from '../util/BrokerSystTopics';
 import { APIService } from '../services/api.service';
+import { MotionDetectionDto } from '../models/MotionDetectionDto';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,8 @@ export class HomeComponent implements OnInit {
   connectedClients = [];
 
   isActiveConnectionLoading = false;
+
+  isHomeAlertHasSignal : boolean = false;
 
   constructor(private apiService: APIService) {
     this.initializeAgentHubConnection();
@@ -54,6 +57,8 @@ export class HomeComponent implements OnInit {
         this.isAgentAndBrokerIsConnected = false;
         this.autoReconnectAgent();
       });
+    }else{
+      this.isWebAndAgentIsConnected = true
     }
   };
 
@@ -73,6 +78,10 @@ export class HomeComponent implements OnInit {
         topic: 'home/living-room/fan/status',
         handler: this.onLivingRoomFanStatusReadingCallback,
       },
+      {
+        topic: 'home/motion-detection',
+        handler: this.onMotionDetectionCallback,
+      }
     ];
 
     if (agentHub.state === HubConnectionState.Connected) {
@@ -143,6 +152,11 @@ export class HomeComponent implements OnInit {
     let componentStatus = JSON.parse(payload) as RelayComponentStatusDto;
     this.fanSwitch = componentStatus.status === Status.ON;
     this.fanStatus = componentStatus.status;
+  };
+
+  onMotionDetectionCallback = (topic : string, payload : string) => {
+    let status = JSON.parse(payload) as MotionDetectionDto;
+    this.isHomeAlertHasSignal = status.signal;
   };
 
   onSystemTopicsCallback = (topic: string, payload: string) => {

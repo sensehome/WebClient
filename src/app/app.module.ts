@@ -32,6 +32,7 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 
 import {MatChipsModule} from '@angular/material/chips';
+import { AlertComponent } from './shared/alert/alert.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -49,7 +50,8 @@ export function tokenGetter() {
     LoginComponent,
     TemperatureHumidityComponent,
     SubstringPipe,
-    LogoutModalComponent
+    LogoutModalComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

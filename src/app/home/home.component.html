@@ -84,7 +84,9 @@
             </span>
           </div>
         </div>
-
+        <div *ngIf="isHomeAlertHasSignal">
+          <app-alert></app-alert>
+        </div>
         <div class="mt-3 list-group-item">
           <h4>Active Connections</h4>
           <li *ngFor="let clientId of connectedClients; let i = index" class="active-connection-item">
