@@ -20,7 +20,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { LineChartComponent } from './shared/line-chart/line-chart.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { JwtModule } from "@auth0/angular-jwt";
-import { TemperatureHumidityDashboardComponent } from './histories/temperature-humidity/temperature.humidity.component';
+import { TemperatureHumidityComponent } from './histories/temperature-humidity/temperature.humidity.component';
 import { SubstringPipe } from './pipes/SubstringPipe';
 import { LogoutModalComponent } from './Modals/logout-modal/logout-modal.component';
 
@@ -47,7 +47,7 @@ export function tokenGetter() {
     DashboardCardComponent,
     LineChartComponent,
     LoginComponent,
-    TemperatureHumidityDashboardComponent,
+    TemperatureHumidityComponent,
     SubstringPipe,
     LogoutModalComponent
   ],

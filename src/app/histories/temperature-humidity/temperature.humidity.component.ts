@@ -17,7 +17,7 @@ import { APIService } from 'src/app/services/api.service';
   templateUrl: './temperature.humidity.component.html',
   styleUrls: ['./temperature.humidity.component.css'],
 })
-export class TemperatureHumidityDashboardComponent
+export class TemperatureHumidityComponent
   implements OnInit, AfterViewInit {
   temperatureValue: number = 0.0;
   humidityValue: number = 0.0;
