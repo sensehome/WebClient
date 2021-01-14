@@ -1,0 +1,55 @@
+<div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <div style="display: block;">
+          <canvas mdbChart [chartType]="chartType" [datasets]="chartTemperatureDatasets" [labels]="chartLabels"
+            [colors]="chartTemperatureColors" [options]="chartOptions" [legend]="true"
+            (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+          </canvas>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div style="display: block;">
+          <canvas mdbChart [chartType]="chartType" [datasets]="chartHumidityDatasets" [labels]="chartLabels"
+            [colors]="chartHumidityColors" [options]="chartOptions" [legend]="true" (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4
+   pr-3 pl-3">
+    <table mdbTable #tableEl="mdbTable" class="z-depth-1">
+      <thead>
+        <tr>
+          <th class="headers" *ngFor="let head of headElements; let i = index" scope="col">{{head}} </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr mdbTableCol *ngFor="let el of temperatureHumidityTable; let i = index">
+          <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
+            {{el.topic | substring:0:-21}}</th>
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
+            {{el.date | date :'short'}}</td>
+          <td class=""
+            *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.temperature |
+            substring:0:5 }}</td>
+          <td class=""
+            *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.humidity}}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot class="grey lighten-5">
+        <tr>
+          <td colspan="4">
+            <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="temperatureHumidityTable">
+            </mdb-table-pagination>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>

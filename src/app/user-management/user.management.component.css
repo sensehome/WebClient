@@ -1,15 +1,15 @@
-.Admin{
+.Admin {
   font-style: bold;
   font-weight: bold;
 }
-.headers{
-font-size: 24px;
+.headers {
+  font-size: 24px;
 }
-.Online{
+.Online {
   background-color: green;
   color: white;
 }
-.Offline{
-  background-color:red;
+.Offline {
+  background-color: red;
   color: white;
 }

@@ -1,0 +1,109 @@
+<button type="button" mdbBtn color="default" rounded="true" data-toggle="modal" data-target="#basicExample"
+  (click)="frame.show()" mdbWavesEffect>Create User</button>
+
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Create User</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3" novalidate [formGroup]="UserForm">
+        <div class="md-form mb-5">
+          <mdb-icon fas icon="id-badge" class="prefix grey-text"></mdb-icon>
+          <input type="email" id="defaultForm-email" formControlName="name" placeholder="" class="form-control" mdbInput
+            mdbValidate>
+          <label for="defaultForm-email">Name</label>
+          <mdb-error *ngIf="headingMessage">
+            User exists with the same name
+          </mdb-error>
+        </div>
+        <div class="md-form mb-4">
+          <mdb-icon fas icon="user-tag" class="prefix grey-text"></mdb-icon>
+          <label style="margin-left: 10%; margin-top: -7%; color: green">Role</label>
+          <select style="width: 91%; margin-left: 9%; margin-bottom: 5%;" formControlName="type"
+            class="browser-default custom-select">
+            <option value="1">Admin</option>
+            <option value="2">User</option>
+            <option value="3">Device</option>
+          </select>
+        </div>
+
+        <div class="md-form mb-4">
+          <mdb-icon fas icon="lock" class="prefix grey-text"></mdb-icon>
+          <input type="password" id="defaultForm-pass" formControlName="password" class="form-control" mdbInput
+            mdbValidate>
+          <label for="defaultForm-pass">Password</label>
+        </div>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="submit" (click)="onSubmit()" mdbBtn color="default" class="waves-light"
+          mdbWavesEffect>Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table mdbTable #tableEl="mdbTable" class="z-depth-1">
+  <thead>
+    <tr>
+      <th class="headers" *ngFor="let head of headElements; let i = index" scope="col">{{head}} </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr mdbTableCol *ngFor="let el of usersTable; let i = index">
+      <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
+        {{el.name}}</th>
+      <td [ngClass]='el.type == 1 ? "Admin": el.type == 2 ? "User": "Device"'
+        *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.type == 1 ?
+        "Admin": el.type == 2 ? "User": "Device"}}</td>
+      <td> <button (click)="Subscription(el.id)" (click)="frame2.show()" mat-raised-button
+          color="primary">Subscriptions</button></td>
+      <td [ngClass]='el.isActive? "Online": "Offline"'
+        *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.isActive?
+        "Online": "Offline"}}</td>
+    </tr>
+  </tbody>
+  <tfoot class="grey lighten-5 w-100">
+    <tr>
+      <td colspan="4">
+        <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="usersTable"></mdb-table-pagination>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<div mdbModal #frame2="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Subscriptions</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame2.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <mat-form-field class="example-chip-list">
+        <!-- <mat-label>Favorite Fruits</mat-label> -->
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
+            (removed)="remove(fruit)">
+            {{fruit}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+            {{fruit}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

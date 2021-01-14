@@ -18,8 +18,7 @@
                   !(lightStatus === 'N/A' || lightStatus === 'OFF')
                     ? 'fas fa-lightbulb fa-2x text-warning'
                     : 'fas fa-lightbulb fa-2x'
-                " label="Home Light"
-                value="{{ lightStatus }}"></app-dashboard-card>
+                " label="Home Light" value="{{ lightStatus }}"></app-dashboard-card>
               <div class="col-sm-4 col-md-3 col-lg-2 dashboard-card-switch">
                 <div class="custom-control custom-switch">
                   <input (change)="handleLightSwitch($event)" type="checkbox" class="custom-control-input"
@@ -85,14 +84,14 @@
             </span>
           </div>
         </div>
-
+        <div *ngIf="isHomeAlertHasSignal">
+          <app-alert></app-alert>
+        </div>
         <div class="mt-3 list-group-item">
-          <h6>Broker Clients</h6>
-          <ul>
-            <li *ngFor="let clientId of connectedClients; let i = index">
-              {{ clientId }}
-            </li>
-          </ul>
+          <h4>Active Connections</h4>
+          <li *ngFor="let clientId of connectedClients; let i = index" class="active-connection-item">
+            {{ clientId }}
+          </li>
         </div>
       </div>
     </div>

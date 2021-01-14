@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
+import { UserManagementComponent } from './user-management/user.management.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,13 +20,19 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { LineChartComponent } from './shared/line-chart/line-chart.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { JwtModule } from "@auth0/angular-jwt";
-import { TemperatureHumidityDashboardComponent } from './dashboard-table/temperature-humidity-dashboard/temperature-humidity-dashboard.component';
+import { TemperatureHumidityComponent } from './histories/temperature-humidity/temperature.humidity.component';
 import { SubstringPipe } from './pipes/SubstringPipe';
 import { LogoutModalComponent } from './Modals/logout-modal/logout-modal.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NavbarModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+
+import {MatChipsModule} from '@angular/material/chips';
+import { AlertComponent } from './shared/alert/alert.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -36,15 +42,16 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     HomeComponent,
-    ProfileComponent,
+    UserManagementComponent,
     SettingsComponent,
     LayoutComponent,
     DashboardCardComponent,
     LineChartComponent,
     LoginComponent,
-    TemperatureHumidityDashboardComponent,
+    TemperatureHumidityComponent,
     SubstringPipe,
-    LogoutModalComponent
+    LogoutModalComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -62,6 +69,10 @@ export function tokenGetter() {
     NavbarModule,
     WavesModule,
     ButtonsModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatIconModule,
     MDBBootstrapModule.forRoot(),
     JwtModule.forRoot({
       config: {

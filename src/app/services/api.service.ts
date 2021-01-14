@@ -6,8 +6,8 @@ import { LoginDto } from '../models/AuthenticationDto';
 import { UsersDto } from '../models/UsersDto';
 import { StoreService } from './store.service';
 
-// const API_ENDPOINT = 'http://api.sensehome.online/api';
-const API_ENDPOINT = 'http://localhost:5000/api';
+const API_ENDPOINT = 'http://api.sensehome.online/api';
+// const API_ENDPOINT = 'http://localhost:5000/api';
 
 
 @Injectable({
@@ -49,6 +49,14 @@ export class APIService {
     let config = this.getRequestConfiguration(true)
     return this.http.get(endpoint, config);
   };
+
+
+  getSubscriptionsByUserId = (userId: string | number) : Observable<Object> => {
+    let endpoint = `${API_ENDPOINT}/users/${userId}/subscriptions`;
+    let config = this.getRequestConfiguration(true);
+    return this.http.get(endpoint,config);
+  };
+
 
   createUser = (data: UsersDto): Observable<Object> => {
     let endpoint = `${API_ENDPOINT}/users`;

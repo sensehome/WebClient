@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TemperatureHumidityDashboardComponent } from './temperature-humidity-dashboard.component';
+import { TemperatureHumidityDashboardComponent } from './temperature.humidity.component';
 
 describe('TemperatureHumidityDashboardComponent', () => {
   let component: TemperatureHumidityDashboardComponent;
