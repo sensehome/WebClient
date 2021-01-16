@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MdbTableDirective, MdbTablePaginationComponent } from 'angular-bootstrap-md';
 import { APIService } from 'src/app/services/api.service';
 import { UsersDto } from '../models/UsersDto';
@@ -28,13 +28,14 @@ export class UserManagementComponent implements OnInit {
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective;
   elements: any = [];
   previous: any = [];
-  headElements = ['Name', 'Role','Subscription', 'Status'];
+  headElements = ['Name', 'Role','Subscription', 'Update', 'Status'];
   subscriptionHeadElements = ['Name','Edit'];
   usersTable: any = [];
   subscriptionTable: string[] = [];
   UserForm: FormGroup;
   headingMessage: string = "";
   checkError = false;
+  productID : any;
 
   visible = true;
   selectable = true;
@@ -48,7 +49,8 @@ export class UserManagementComponent implements OnInit {
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor(private apiService: APIService, private cdRef: ChangeDetectorRef,private router: Router, private modal: ModalModule) {
+  constructor(private apiService: APIService, private cdRef: ChangeDetectorRef,private router: Router,
+    private actRoute: ActivatedRoute, private modal: ModalModule) {
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
       startWith(null),
       map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
@@ -98,6 +100,10 @@ export class UserManagementComponent implements OnInit {
       type: new FormControl('', Validators.required),
       isActive: new FormControl(true),
     });
+    this.productID = this.actRoute.snapshot.params['id'];
+    console.log('hello'+ this.productID);
+
+
     this.apiService.getAllUsers().subscribe(data => {
       this.usersTable = data;
       this.mdbTable.setDataSource(this.usersTable);
@@ -132,6 +138,10 @@ export class UserManagementComponent implements OnInit {
 
     })
 
+  }
+
+  UpdateUser(id? : string){
+    console.log(id);
   }
 
 }
