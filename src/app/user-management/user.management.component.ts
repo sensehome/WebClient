@@ -123,7 +123,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   onSubmit(){
-    const value = { ...this.UserForm.value, type: +this.UserForm.value.type } as UsersDto;
+    const value = { ...this.UserForm.value, type: +this.UserForm.value.type, isActive: true } as UsersDto;
     this.apiService.createUser(value).subscribe(
       (response) => window.location.reload(),
       (error) => this.headingMessage = error.message
