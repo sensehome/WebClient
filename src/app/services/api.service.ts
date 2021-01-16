@@ -51,7 +51,7 @@ export class APIService {
   };
 
 
-  getSubscriptionsByUserId = (userId: string | number) : Observable<Object> => {
+  getSubscriptionsByUserId = (userId: string) : Observable<Object> => {
     let endpoint = `${API_ENDPOINT}/users/${userId}/subscriptions`;
     let config = this.getRequestConfiguration(true);
     return this.http.get(endpoint,config);

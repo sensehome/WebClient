@@ -35,7 +35,8 @@ export class UserManagementComponent implements OnInit {
   UserForm: FormGroup;
   headingMessage: string = "";
   checkError = false;
-  productID : any;
+  userData : any;
+  userId : any;
 
   visible = true;
   selectable = true;
@@ -100,8 +101,8 @@ export class UserManagementComponent implements OnInit {
       type: new FormControl('', Validators.required),
       isActive: new FormControl(true),
     });
-    this.productID = this.actRoute.snapshot.params['id'];
-    console.log('hello'+ this.productID);
+
+    this.UpdateUser(this.userId);
 
 
     this.apiService.getAllUsers().subscribe(data => {
@@ -129,6 +130,7 @@ export class UserManagementComponent implements OnInit {
 
   Subscription(id?: string){
     console.log(id);
+    this.userId = id;
     this.apiService.getSubscriptionsByUserId(id).subscribe(data => {
       let sub = data as SubscriptionDto;
       this.fruits = [];
@@ -142,6 +144,12 @@ export class UserManagementComponent implements OnInit {
 
   UpdateUser(id? : string){
     console.log(id);
-  }
+    this.apiService.getUserById(id).subscribe(user => {
+      this.userData = user;
+      this.UserForm.controls['name'].setValue(this.userData['name']);
+      this.UserForm.controls['password'].setValue(this.userData['password']);
+      this.UserForm.controls['type'].setValue(this.userData['type']);
+      });
+      }
 
 }
