@@ -34,6 +34,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatChipsModule} from '@angular/material/chips';
 import { AlertComponent } from './shared/alert/alert.component';
 import { MatInputModule } from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -76,6 +77,7 @@ export function tokenGetter() {
     MatIconModule,
     MatExpansionModule,
     MatInputModule,
+    MatCardModule,
     MDBBootstrapModule.forRoot(),
     JwtModule.forRoot({
       config: {
