@@ -1,12 +1,13 @@
 <button type="button" mdbBtn color="default" rounded="true" data-toggle="modal" data-target="#basicExample"
-  (click)="frame.show()" mdbWavesEffect>Create User</button>
+  (click)="frame.show()" (click)="changeUpdateToCreate()" mdbWavesEffect>Create User</button>
 
 <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
   aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Create / Update User</h4>
+        <h4 *ngIf="!canUpdate" class="modal-title w-100 font-weight-bold">Create User</h4>
+        <h4 *ngIf="canUpdate" class="modal-title w-100 font-weight-bold">Update User</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -40,9 +41,13 @@
         </div>
 
       </div>
-      <div class="modal-footer d-flex justify-content-center">
+      <div *ngIf="!canUpdate" class="modal-footer d-flex justify-content-center">
         <button type="submit" (click)="onSubmit()" mdbBtn color="default" class="waves-light"
           mdbWavesEffect>Create</button>
+      </div>
+      <div *ngIf="canUpdate" class="modal-footer d-flex justify-content-center">
+        <button type="submit" (click)="onUpdate()" mdbBtn color="default" class="waves-light"
+          mdbWavesEffect>Update</button>
       </div>
     </div>
   </div>
@@ -63,7 +68,7 @@
         "Admin": el.type == 2 ? "User": "Device"}}</td>
       <td> <button (click)="Subscription(el.id)" (click)="frame2.show()" mat-raised-button
           color="primary">Subscriptions</button></td>
-          <td> <button (click)="UpdateUser(el.id)" (click)="frame.show()" mat-raised-button
+          <td> <button (click)="GetUser(el.id)" (click)="frame.show()" mat-raised-button
             color="primary">Update</button></td>
       <td [ngClass]='el.isActive? "Online": "Offline"'
         *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.isActive?

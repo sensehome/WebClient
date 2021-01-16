@@ -37,6 +37,7 @@ export class UserManagementComponent implements OnInit {
   checkError = false;
   userData : any;
   userId : any;
+  canUpdate = false;
 
   visible = true;
   selectable = true;
@@ -102,7 +103,8 @@ export class UserManagementComponent implements OnInit {
       isActive: new FormControl(true),
     });
 
-    this.UpdateUser(this.userId);
+    this.GetUser(this.userId);
+    // this.userId = this.actRoute.snapshot.params['id'];
 
 
     this.apiService.getAllUsers().subscribe(data => {
@@ -129,8 +131,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   Subscription(id?: string){
-    console.log(id);
-    this.userId = id;
+    // this.userId = id;
     this.apiService.getSubscriptionsByUserId(id).subscribe(data => {
       let sub = data as SubscriptionDto;
       this.fruits = [];
@@ -142,14 +143,30 @@ export class UserManagementComponent implements OnInit {
 
   }
 
-  UpdateUser(id? : string){
+  GetUser(id? : string){
     console.log(id);
-    this.apiService.getUserById(id).subscribe(user => {
-      this.userData = user;
-      this.UserForm.controls['name'].setValue(this.userData['name']);
-      this.UserForm.controls['password'].setValue(this.userData['password']);
-      this.UserForm.controls['type'].setValue(this.userData['type']);
-      });
-      }
+      this.apiService.getUserById(id).subscribe(user => {
+        this.userId = id;
+        this.canUpdate = true;
+        this.userData = user;
+        this.UserForm.controls['name'].setValue(this.userData['name']);
+        this.UserForm.controls['password'].setValue(this.userData['password']);
+        this.UserForm.controls['type'].setValue(this.userData['type']);
+        });
+  }
+
+  onUpdate(){
+    const value = { ...this.UserForm.value, type: +this.UserForm.value.type, id: this.userId } as UsersDto;
+    this.apiService.updateUser(value,this.userId).subscribe(
+    (response) => window.location.reload(),
+    (error) => console.log(error)
+  );
+  }
+
+    changeUpdateToCreate() {
+      this.canUpdate = false;
+    }
+
+
 
 }
