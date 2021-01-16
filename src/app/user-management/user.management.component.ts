@@ -156,7 +156,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   onUpdate(){
-    const value = { ...this.UserForm.value, type: +this.UserForm.value.type, id: this.userId } as UsersDto;
+    const value = { ...this.UserForm.value, type: +this.UserForm.value.type, id: this.userId, isActive: true } as UsersDto;
     this.apiService.updateUser(value,this.userId).subscribe(
     (response) => window.location.reload(),
     (error) => console.log(error)
