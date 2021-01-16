@@ -39,6 +39,10 @@ export class UserManagementComponent implements OnInit {
   userId : any;
   canUpdate = false;
 
+
+  panelOpenState = false;
+
+
   visible = true;
   selectable = true;
   removable = true;
@@ -144,7 +148,6 @@ export class UserManagementComponent implements OnInit {
   }
 
   GetUser(id? : string){
-    console.log(id);
       this.apiService.getUserById(id).subscribe(user => {
         this.userId = id;
         this.canUpdate = true;

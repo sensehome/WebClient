@@ -30,9 +30,10 @@ import { NavbarModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatChipsModule} from '@angular/material/chips';
 import { AlertComponent } from './shared/alert/alert.component';
+import { MatInputModule } from '@angular/material/input';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -73,6 +74,8 @@ export function tokenGetter() {
     MatAutocompleteModule,
     MatFormFieldModule,
     MatIconModule,
+    MatExpansionModule,
+    MatInputModule,
     MDBBootstrapModule.forRoot(),
     JwtModule.forRoot({
       config: {

@@ -61,8 +61,19 @@
   </thead>
   <tbody>
     <tr mdbTableCol *ngFor="let el of usersTable; let i = index">
+
       <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
-        {{el.name}}</th>
+
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{el.name}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+      </th>
       <td [ngClass]='el.type == 1 ? "Admin": el.type == 2 ? "User": "Device"'
         *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.type == 1 ?
         "Admin": el.type == 2 ? "User": "Device"}}</td>
