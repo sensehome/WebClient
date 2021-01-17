@@ -15,6 +15,6 @@
 }
 
 .example-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-image: url('https://raw.githubusercontent.com/angular/material.angular.io/master/src/assets/img/angular-material-logo.svg');
   background-size: cover;
 }

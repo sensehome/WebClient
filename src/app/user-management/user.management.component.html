@@ -33,12 +33,18 @@
           </select>
         </div>
 
+
         <div class="md-form mb-4">
           <mdb-icon fas icon="lock" class="prefix grey-text"></mdb-icon>
           <input type="password" id="defaultForm-pass" formControlName="password" class="form-control" mdbInput
             mdbValidate>
           <label for="defaultForm-pass">Password</label>
         </div>
+
+        <div class="md-form mb-4">
+          <!-- <mdb-icon fas icon="check-circle" class="prefix grey-text"></mdb-icon> -->
+          <mat-slide-toggle formControlName="isActive" (change)="onChange($event)">Active</mat-slide-toggle>
+          </div>
 
       </div>
       <div *ngIf="!canUpdate" class="modal-footer d-flex justify-content-center">
@@ -74,8 +80,8 @@
     <mat-card>
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title> <input type="text" value="Shiba Inu"> </mat-card-title>
-      <mat-card-subtitle> <input type="text" value="Dog Breed"> </mat-card-subtitle>
+      <mat-card-title> <input type="text" value={{el.name}}>  </mat-card-title>
+      <mat-card-subtitle> <input type="text" value={{el.id}}> </mat-card-subtitle>
       <button style="height: 41px; background-color: #2BBBAD;text-align: justify" mat-raised-button color="primary">Save</button>
     </mat-card-header>
   </mat-card>
@@ -90,7 +96,7 @@
             color="primary">Update</button></td>
       <td [ngClass]='el.isActive? "Online": "Offline"'
         *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.isActive?
-        "Online": "Offline"}}</td>
+        "Active": "Inactive"}}</td>
     </tr>
   </tbody>
   <tfoot class="grey lighten-5 w-100">
