@@ -144,10 +144,7 @@ export class UserManagementComponent implements OnInit {
     this.apiService.getSubscriptionsByUserId(id).subscribe(data => {
       let sub = data as SubscriptionDto;
       this.fruits = [];
-      if(id === sub.userId){
-        console.log(sub);
-      }
-
+      this.fruits = sub.path;
     })
 
   }
