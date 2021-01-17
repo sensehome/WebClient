@@ -39,6 +39,12 @@ export class UserManagementComponent implements OnInit {
   userId : any;
   canUpdate = false;
 
+
+  panelOpenState = false;
+
+  labelPosition: 'before' | 'after' = 'after';
+
+
   visible = true;
   selectable = true;
   removable = true;
@@ -47,6 +53,8 @@ export class UserManagementComponent implements OnInit {
   filteredFruits: Observable<string[]>;
   fruits: string[] = [];
   allFruits: string[] = ['home/temperature', 'home/humidity', 'home/motion', 'home/light', 'home/fan'];
+
+  isActive: boolean;
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -100,7 +108,7 @@ export class UserManagementComponent implements OnInit {
       name: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
-      isActive: new FormControl(true),
+      isActive: new FormControl(''),
     });
 
     this.GetUser(this.userId);
@@ -123,7 +131,8 @@ export class UserManagementComponent implements OnInit {
   }
 
   onSubmit(){
-    const value = { ...this.UserForm.value, type: +this.UserForm.value.type, isActive: true } as UsersDto;
+    const value = { ...this.UserForm.value, type: +this.UserForm.value.type, isActive: this.isActive } as UsersDto;
+    console.log(value);
     this.apiService.createUser(value).subscribe(
       (response) => window.location.reload(),
       (error) => this.headingMessage = error.message
@@ -135,16 +144,20 @@ export class UserManagementComponent implements OnInit {
     this.apiService.getSubscriptionsByUserId(id).subscribe(data => {
       let sub = data as SubscriptionDto;
       this.fruits = [];
-      if(id === sub.userId){
-        console.log(sub);
-      }
-
+      this.fruits = sub.path;
     })
 
   }
+  onChange(event:any)
+  {
+    if (event.checked == true) {
+      this.isActive = true;
+    } else {
+      this.isActive = false;
+    }
+  }
 
   GetUser(id? : string){
-    console.log(id);
       this.apiService.getUserById(id).subscribe(user => {
         this.userId = id;
         this.canUpdate = true;
@@ -152,11 +165,13 @@ export class UserManagementComponent implements OnInit {
         this.UserForm.controls['name'].setValue(this.userData['name']);
         this.UserForm.controls['password'].setValue(this.userData['password']);
         this.UserForm.controls['type'].setValue(this.userData['type']);
+        this.UserForm.controls['isActive'].setValue(this.userData['isActive']);
         });
   }
 
   onUpdate(){
-    const value = { ...this.UserForm.value, type: +this.UserForm.value.type, id: this.userId, isActive: true } as UsersDto;
+    const value = { ...this.UserForm.value, type: +this.UserForm.value.type, id: this.userId, isActive: this.isActive} as UsersDto;
+    console.log(value);
     this.apiService.updateUser(value,this.userId).subscribe(
     (response) => window.location.reload(),
     (error) => console.log(error)

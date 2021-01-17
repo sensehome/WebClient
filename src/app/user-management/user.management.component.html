@@ -33,12 +33,18 @@
           </select>
         </div>
 
+
         <div class="md-form mb-4">
           <mdb-icon fas icon="lock" class="prefix grey-text"></mdb-icon>
           <input type="password" id="defaultForm-pass" formControlName="password" class="form-control" mdbInput
             mdbValidate>
           <label for="defaultForm-pass">Password</label>
         </div>
+
+        <div class="md-form mb-4">
+          <!-- <mdb-icon fas icon="check-circle" class="prefix grey-text"></mdb-icon> -->
+          <mat-slide-toggle formControlName="isActive" (change)="onChange($event)">Active</mat-slide-toggle>
+          </div>
 
       </div>
       <div *ngIf="!canUpdate" class="modal-footer d-flex justify-content-center">
@@ -60,9 +66,27 @@
     </tr>
   </thead>
   <tbody>
-    <tr mdbTableCol *ngFor="let el of usersTable; let i = index">
+    <tr mdbTableCol *ngFor="let el of usersTable?.reverse(); let i = index">
+
       <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
-        {{el.name}}</th>
+
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{el.name}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title> <input type="text" value={{el.name}}>  </mat-card-title>
+      <mat-card-subtitle> <input type="text" value={{el.id}}> </mat-card-subtitle>
+      <button style="height: 41px; background-color: #2BBBAD;text-align: justify" mat-raised-button color="primary">Save</button>
+    </mat-card-header>
+  </mat-card>
+  </mat-expansion-panel>
+      </th>
       <td [ngClass]='el.type == 1 ? "Admin": el.type == 2 ? "User": "Device"'
         *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.type == 1 ?
         "Admin": el.type == 2 ? "User": "Device"}}</td>
@@ -72,7 +96,7 @@
             color="primary">Update</button></td>
       <td [ngClass]='el.isActive? "Online": "Offline"'
         *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{el.isActive?
-        "Online": "Offline"}}</td>
+        "Active": "Inactive"}}</td>
     </tr>
   </tbody>
   <tfoot class="grey lighten-5 w-100">
