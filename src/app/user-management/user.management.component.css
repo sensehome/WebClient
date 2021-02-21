@@ -1,0 +1,20 @@
+.Admin {
+  font-style: bold;
+  font-weight: bold;
+}
+.headers {
+  font-size: 24px;
+}
+.Online {
+  background-color: green;
+  color: white;
+}
+.Offline {
+  background-color: red;
+  color: white;
+}
+
+.example-header-image {
+  background-image: url('https://raw.githubusercontent.com/angular/material.angular.io/master/src/assets/img/angular-material-logo.svg');
+  background-size: cover;
+}

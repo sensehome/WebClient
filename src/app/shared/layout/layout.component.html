@@ -1,0 +1,34 @@
+<mdb-navbar SideClass="navbar navbar-expand-md navbar-dark green lighten-1" [containerInside]="false">
+  <mdb-navbar-brand>
+    <a class="navbar-brand" routerLink="/home">
+      <img src="/assets/logo.png" width="25px" /> SenseHome</a>
+  </mdb-navbar-brand>
+
+  <links>
+    <ul class="navbar-nav mr-auto" *ngIf="isUserAuthenticated()">
+      <li class="nav-item active">
+        <a class="nav-link waves-light" routerLinkActive="active" routerLink="/home" mdbWavesEffect>Home<span
+            class="sr-only">(current)</span></a>
+      </li>
+
+      <li class="nav-item dropdown" dropdown>
+        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+          Historical Data<span class="caret"></span></a>
+        <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
+          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/history/temperature-humidity">Temperature and
+            Humidity</a>
+          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/history/motion-detection">Motion Detection</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link waves-light" routerLink="/users" mdbWavesEffect>User Management</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto nav-flex-icons" *ngIf="isUserAuthenticated()">
+      <li class="nav-item">
+        <a class="nav-link waves-light" (click)="logOutPopUp()" mdbWavesEffect>Log out</a>
+      </li>
+    </ul>
+  </links>
+</mdb-navbar>
